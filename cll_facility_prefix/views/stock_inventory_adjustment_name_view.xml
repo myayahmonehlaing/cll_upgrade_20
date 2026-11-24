@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_inventory_adjustment_name_form_view_inherit" model="ir.ui.view">
+        <field name="name">stock.inventory.adjustment.name.form.view.inherit</field>
+        <field name="model">stock.inventory.adjustment.name</field>
+        <field name="inherit_id" ref="stock.stock_inventory_adjustment_name_form_view"/>
+        <field name="arch" type="xml">
+            <field name="inventory_adjustment_name" position="after">
+                 <field name="use_facility" invisible="1"/>
+                 <field name="facility_id" options="{'no_create': True}" invisible="not use_facility" required="use_facility"/>
+                <field name="company_id" invisible="1"/>
+            </field>
+        </field>
+    </record>
+</odoo>

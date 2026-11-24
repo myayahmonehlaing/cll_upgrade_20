@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+access_res_facility,access.res.facility,res.facility,base.group_user,r
+group_system_access_res_facility,access.res.facility group_system,res.facility,account.group_account_manager,crud
+res_facility_comp_rule,Res Facility multi-company,res.facility,,crud,"[('company_id', 'in', company_ids)]"

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_cll_prefix" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.cll.prefix</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="25"/>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <setting id="inter_company" position="after">
+                 <setting id="use_facility_code_to_determine_prefix" help="Use facility code to determine the prefix
+        if the company has settings for the prefix.">
+                     <field name="use_facility_code_to_determine_prefix"/>
+                 </setting>
+
+            </setting>
+        </field>
+    </record>
+</odoo>

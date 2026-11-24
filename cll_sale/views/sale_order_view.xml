@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_order_tree_inherited_from_sale_import" model="ir.ui.view">
+        <field name="name">sale.order.tree.inherited.form.stale.import</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <field name="ehr_invoice_status"/>
+            </xpath>
+            <xpath expr="//list/field[@name='partner_id']" position="after">
+                <field name="partner_group_id" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="payment_term_id" position="after">
+                <field name="ehr_invoice_status"/>
+                <!-- <field name="ehr_provider_id"  invisible="company_id != 4"/> -->
+                <field name="visit_type"/>
+                <field name="refer_specific"/>
+            </field>
+             <xpath expr="/form/sheet/notebook/page[@name='order_lines']/field[@name='order_line']/list//field[@name='discount']" position="after">
+                   position="after">
+                <field optional="show" name="ehr_discount"/>
+                <field optional="hide" name="lot_id" readonly="not product_updatable"/>
+                <field optional="hide" name="expired_date"/>
+                <!--                    <field optional="hide" name="discount_amount" />-->
+                <field optional="hide" name="provider_id" context="{'default_is_provider': True}"
+                       domain="[('is_provider', '=', True)]"/>
+                <field optional="hide" name="refer_id" context="{'default_is_refer': True}"
+                       domain="[('is_refer','=', True)]"/>
+                <field optional="hide" name="is_product_part"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_shipping_id']"
+                   position="after">
+                <field name="partner_group_id" readonly="1" force_save="1"/>
+            </xpath>
+
+
+            <field name="partner_id" position="attributes">
+                <attribute name="context">
+                    {'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True,'default_is_customer':
+                    True}
+                </attribute>
+            </field>
+
+        </field>
+    </record>
+
+    <record id="account.res_partner_action_customer" model="ir.actions.act_window">
+        <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company':
+            True, 'default_customer_rank': 1,'default_is_customer': 1}
+        </field>
+    </record>
+
+    <record id="view_sales_order_filter_inherit" model="ir.ui.view">
+        <field name="name">sale.order.list.select</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search/field[@name='name']" position="after">
+                <field name="partner_group_id" string="Patient Category"/>
+            </xpath>
+            <xpath expr="//search/group" position="inside">
+                <filter string="Patient Category"
+                        name="group_by_partner_group"
+                        context="{'group_by': 'partner_group_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

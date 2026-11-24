@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_expense_view_form_inherit" model="ir.ui.view">
+            <field name="name">hr.expense.form.inherit</field>
+            <field name="model">hr.expense</field>
+            <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+            <field name="arch" type="xml">
+               <xpath expr="//field[@name='analytic_distribution']" position="after">
+                    <field name="use_facility" invisible="1"/>
+                    <field name="facility_id"  readonly="not is_editable" options="{'no_create': True}" invisible="not use_facility" required="use_facility"/>
+                </xpath>
+            </field>
+    </record>
+<!--    <record id="view_hr_expense_sheet_form_inherit" model="ir.ui.view">-->
+<!--            <field name="name">hr.expense.sheet.form.inherit</field>-->
+<!--            <field name="model">hr.expense.sheet</field>-->
+<!--            <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--               <xpath expr="//field[@name='employee_journal_id']" position="after">-->
+<!--                    <field name="use_facility" invisible="1"/>-->
+<!--                    <field name="facility_id"  readonly="state != 'draft'" options="{'no_create': True}" invisible="not use_facility" required="use_facility"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--    </record>-->
+
+
+</odoo>

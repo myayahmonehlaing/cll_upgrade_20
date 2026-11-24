@@ -1,0 +1,262 @@
+<odoo>
+   <data>
+      <record id="action_move_in_invoice_advance" model="ir.actions.act_window">
+            <field name="name">Employee Advance</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">list,kanban,form,activity</field>
+            <field name="view_id" ref="account.view_in_invoice_bill_tree"/>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="domain">[('move_type', '=', 'in_invoice'),('is_employee_advance', '=',True)]</field>
+            <field name="context">{'default_move_type': 'in_invoice','default_is_employee_advance': True, 'is_employee_advance': True,'display_account_trust': True}</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a employee advance
+              </p><p>
+                Create invoices, register payments and keep track of the discussions with your vendors.
+              </p>
+            </field>
+      </record>
+
+      <menuitem id="menu_action_move_in_invoice_advance" action="action_move_in_invoice_advance" sequence="2" parent="account.menu_finance_payables"/>
+
+     <record id="action_move_in_invoice_vendor_advance" model="ir.actions.act_window">
+            <field name="name">Vendor Advance</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">list,kanban,form,activity</field>
+            <field name="view_id" ref="account.view_in_invoice_bill_tree"/>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="domain">[('move_type', '=', 'in_invoice'),('is_vendor_advance', '=',True)]</field>
+            <field name="context">{'default_move_type': 'in_invoice','default_is_vendor_advance': True, 'is_vendor_advance': True,'display_account_trust': True}</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a employee advance
+              </p><p>
+                Create invoices, register payments and keep track of the discussions with your vendors.
+              </p>
+            </field>
+      </record>
+
+      <menuitem id="menu_move_in_invoice_vendor_advance" action="action_move_in_invoice_vendor_advance" sequence="2" parent="account.menu_finance_payables"/>
+
+
+       <record id="account.action_move_in_invoice_type" model="ir.actions.act_window">
+            <field name="name">Bills</field>
+            <field name="domain">[('move_type', '=', 'in_invoice'),('is_employee_advance', '=',False),('is_vendor_advance', '=',False)]</field>
+            <field name="context">{'default_move_type': 'in_invoice','default_is_employee_advance': False, 'default_is_vendor_advance': False,'display_account_trust': True}</field>
+
+       </record>
+
+<!--        <record id="action_view_expense" model="ir.actions.act_window">-->
+<!--            <field name="name">Expense </field>-->
+<!--            <field name="res_model">hr.expense.sheet</field>-->
+<!--            <field name="view_mode">list,form</field>-->
+<!--            <field name="domain">[('advance_id', '=', active_id)]</field>-->
+<!--            <field name="context">{'search_default_advance_id': active_id,'default_advance_id': active_id}</field>-->
+<!--            <field name="help" type="html">-->
+<!--                <p> </p>-->
+<!--            </field>-->
+<!--     </record>-->
+
+       <!--           <xpath expr="//div[@name='button_box']" position="inside">-->
+<!--                <button class="oe_stat_button" icon="fa-diamond" type="action" name="%(cll_account.action_view_expense)d">-->
+<!--                   <field widget="statinfo" name="hr_expense_sheet_count" string="Expense"/>-->
+<!--                </button>-->
+<!--              </xpath>-->
+
+      <record id="view_out_invoice_tree_inherit_cll_account" model="ir.ui.view">
+            <field name="name">account.move.tree.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_out_invoice_tree"/>
+            <field name="arch" type="xml">
+                <field name="ref" position="after">
+                    <field name="origin" optional="show"/>
+                </field>
+
+            </field>
+        </record>
+
+       <record id="view_move_form_inherit" model="ir.ui.view">
+       <field name="name">account.move.form.inherit</field>
+       <field name="model">account.move</field>
+       <field name="inherit_id" ref="account.view_move_form"/>
+       <field name="arch" type="xml">
+
+           <xpath expr="//field[@name='journal_id']" position="after">
+               <field name="is_employee_advance" invisible="1"/>
+               <field name="is_vendor_advance" invisible="1"/>
+           </xpath>
+           <xpath expr="//field[@name='partner_id']" position="replace">
+                <field name="partner_id" widget="res_partner_many2one" nolabel="1"
+                       context="{'move_type': context.get('default_move_type'),
+                                 'res_partner_search_mode': (context.get('default_move_type', 'entry') in ('out_invoice', 'out_refund', 'out_receipt') and 'customer') or False,
+                                 'show_address': 1,
+                                 'default_is_company': True,
+                                 'show_vat': True,
+                                 'default_is_customer': (context.get('default_move_type', 'entry') in ('out_invoice', 'out_refund', 'out_receipt'))}"
+                       domain="[('is_customer', '=', True)]"
+                       options='{"no_quick_create": True}'
+                       invisible="move_type not in ('out_invoice', 'out_refund', 'out_receipt')"
+                       readonly="state != 'draft'"/>
+                   <field name="partner_id" widget="res_partner_many2one" nolabel="1"
+                       context="{'move_type': context.get('default_move_type'),
+                                 'res_partner_search_mode': (context.get('default_move_type', 'entry') in ('in_invoice', 'in_refund', 'in_receipt') and 'supplier') or False,
+                                 'show_address': 1,
+                                 'default_is_company': True,
+                                 'show_vat': True,
+                                 'default_is_vendor': (context.get('default_move_type', 'entry') in ('in_invoice', 'in_refund', 'in_receipt'))}"
+                          domain="[('is_vendor', '=', True)]"
+                        options='{"no_quick_create": True}'
+                       invisible="move_type not in ('in_invoice', 'in_refund', 'in_receipt') or is_employee_advance "
+                       readonly="state != 'draft'"/>
+
+                    <field name="partner_id" widget="res_partner_many2one" nolabel="1"
+                       context="{'move_type': context.get('default_move_type'),
+                                 'res_partner_search_mode': (context.get('default_move_type', 'entry') in ('in_invoice', 'in_refund', 'in_receipt') and 'supplier') or False,
+                                 'show_address': 1,
+                                 'default_is_company': True,
+                                 'show_vat': True }"
+                          domain="[('is_employee', '=', True)]"
+                        options='{"no_quick_create": True}'
+                       invisible="not is_employee_advance"
+                       readonly="state != 'draft'"/>
+           </xpath>
+           <xpath expr="//form/sheet/group/group[@id='header_left_group']/field[@name='ref']" position="after">
+                <field name="refund_move_id" invisible="move_type not in ('in_refund')"/>
+           </xpath>
+           <xpath expr="//button[@name='action_view_source_purchase_orders']" position="after">
+                <button name="bill_credit_note" class="oe_highlight"
+                        type="object" icon="fa-folder-open" domain="[('refund_move_id', '=', id)]"
+                        context="{'search_default_refund_move_id': id, 'default_refund_move_id': id, 'default_move_type': 'in_refund'}"
+                        invisible="move_type not in ['in_invoice']">
+                    <field widget="statinfo" name="move_count" string="Credit note"/>
+                </button>
+           </xpath>
+           <xpath expr="//label[@for='journal_id']" position="attributes">
+                <attribute name="groups">account.group_account_readonly,cll_account.group_employee_advance_user</attribute>
+            </xpath>
+            <xpath expr="//div[@name='journal_div']" position="attributes">
+                <attribute name="groups">account.group_account_readonly,cll_account.group_employee_advance_user</attribute>
+            </xpath>
+
+           <field name="ref" position="after">
+                  <field name="vendor_advance_widget"
+                            colspan="2" nolabel="1" widget="advance"
+                            invisible="vendor_advance_widget == False "/>
+           </field>
+           <field name="invoice_user_id" position="before">
+                     <field name="origin" readonly="state !='draft'"/>
+           </field>
+       </field>
+       </record>
+
+       <record id="view_move_tree_inherit_cll" model="ir.ui.view">
+            <field name="name">account.move.tree.inherit.cll</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_in_invoice_bill_tree"/>
+            <field name="arch" type="xml">
+<!--                <xpath expr="//field[@name='state']" position="after">-->
+<!--                     <field name="hr_expense_sheet_count" optional="show" string="Related Expense" widget="color_picker"/>-->
+<!--                </xpath>-->
+                <xpath expr="//field[@name='amount_total_in_currency_signed']" position="after">
+                    <field name="amount_total_signed" />
+                </xpath>
+
+                <xpath expr="//field[@name='status_in_payment']" position="after">
+                    <field name="refund_move" optional="show" string="Related Refund" widget="color_picker"/>
+                    <field name="total_advance_amount" optional="hide" />
+                    <field name="advance_payable_balance" optional="hide" />
+                </xpath>
+            </field>
+        </record>
+
+       <record id="hr_expense.menu_hr_expense_my_expenses" model="ir.ui.menu">
+            <field name="group_ids" eval="[(6, 0, [ref('base.group_no_one')])]"/>
+        </record>
+        <record id="account.account_reports_management_menu" model="ir.ui.menu">
+          <field name="group_ids" eval="[(6, 0, [ref('group_account_officer')])]"/>
+        </record>
+
+        <record id="account.account_reports_legal_statements_menu" model="ir.ui.menu">
+          <field name="group_ids" eval="[(6, 0, [ref('group_account_officer')])]"/>
+        </record>
+
+        <record id="account_reports.menu_action_account_report_deferred_expense" model="ir.ui.menu">
+          <field name="group_ids" eval="[(6, 0, [ref('group_account_officer')])]"/>
+        </record>
+
+        <record id="account_reports.menu_action_account_report_deferred_revenue" model="ir.ui.menu">
+          <field name="group_ids" eval="[(6, 0, [ref('group_account_officer')])]"/>
+        </record>
+
+        <record id="account_asset.menu_action_account_report_assets" model="ir.ui.menu">
+          <field name="group_ids" eval="[(6, 0, [ref('group_account_officer')])]"/>
+        </record>
+
+<!--        <record id="account_disallowed_expenses.menu_action_account_report_de" model="ir.ui.menu">-->
+<!--          <field name="group_ids" eval="[(6, 0, [ref('group_account_officer')])]"/>-->
+<!--        </record>-->
+
+<!--        <record id="account_accountant.menu_action_change_lock_date" model="ir.ui.menu">-->
+<!--          <field name="group_ids" eval="[(6, 0, [ref('group_account_officer')])]"/>-->
+<!--        </record>-->
+
+        <record id="accountant.menu_action_account_report_gt" model="ir.ui.menu">
+          <field name="group_ids" eval="[(6, 0, [ref('account.group_account_manager')])]"/>
+        </record>
+
+        <record id="account_reports.menu_action_account_report_sales" model="ir.ui.menu">
+          <field name="group_ids" eval="[(6, 0, [ref('account.group_account_manager')])]"/>
+        </record>
+
+        <record id="accountant.menu_action_account_report_balance_sheet" model="ir.ui.menu">
+          <field name="group_ids" eval="[(6, 0, [ref('account.group_account_manager')])]"/>
+        </record>
+
+        <record id="accountant.menu_action_account_report_profit_and_loss" model="ir.ui.menu">
+          <field name="group_ids" eval="[(6, 0, [ref('account.group_account_manager')])]"/>
+        </record>
+
+        <record id="accountant.menu_action_account_report_cash_flow" model="ir.ui.menu">
+          <field name="group_ids" eval="[(6, 0, [ref('account.group_account_manager')])]"/>
+        </record>
+
+        <record id="accountant.menu_action_account_report_exec_summary" model="ir.ui.menu">
+          <field name="group_ids" eval="[(6, 0, [ref('account.group_account_manager')])]"/>
+        </record>
+
+
+<!--        <menuitem id="account.menu_finance_receivables" sequence="2" parent="account.menu_finance" name="Customers" groups="account.group_account_invoice,account.group_account_readonly"/>-->
+
+<!--         <record id="account.menu_action_move_in_invoice_type" model="ir.ui.menu">-->
+<!--            <field name="group_ids" eval="[(6, 0, [ref('account.group_account_invoice'), ref('account.group_account_readonly')])]"/>-->
+<!--        </record>-->
+
+<!--       <record id="account.menu_action_move_in_refund_type" model="ir.ui.menu">-->
+<!--            <field name="group_ids" eval="[(6, 0, [ref('account.group_account_invoice'), ref('account.group_account_readonly')])]"/>-->
+<!--        </record>-->
+
+<!--       <record id="account.menu_action_open_payment_items" model="ir.ui.menu">-->
+<!--            <field name="group_ids" eval="[(6, 0, [ref('account.group_account_invoice'), ref('account.group_account_readonly')])]"/>-->
+<!--        </record>-->
+
+<!--       <record id="account.menu_action_account_payments_payable" model="ir.ui.menu">-->
+<!--            <field name="group_ids" eval="[(6, 0, [ref('account.group_account_invoice'), ref('account.group_account_readonly')])]"/>-->
+<!--        </record>-->
+
+<!--       <record id="hr_expense.menu_hr_expense_account_employee_expenses" model="ir.ui.menu">-->
+<!--        <field name="group_ids" eval="[-->
+<!--            (4, ref('account.group_account_invoice')),-->
+<!--            (4, ref('account.group_account_readonly'))-->
+<!--        ]"/>-->
+<!--        </record>-->
+
+<!--       <record id="account.menu_account_supplier_accounts" model="ir.ui.menu">-->
+<!--            <field name="group_ids" eval="[(6, 0, [ref('account.group_account_invoice'), ref('account.group_account_readonly')])]"/>-->
+<!--        </record>-->
+
+<!--       <record id="account_cashbook.menu_action_account_cashbook_payment" model="ir.ui.menu">-->
+<!--            <field name="group_ids" eval="[(6, 0, [ref('account.group_account_invoice'), ref('account.group_account_readonly')])]"/>-->
+<!--        </record>-->
+
+  </data>
+</odoo>

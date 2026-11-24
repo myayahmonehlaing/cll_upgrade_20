@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="account_analytic_plan_form_view_facility_inherit_account" model="ir.ui.view">
+            <field name="name">account.analytic.plan.facility.inherit.form</field>
+            <field name="model">account.analytic.plan</field>
+            <field name="inherit_id" ref="analytic.account_analytic_plan_form_view"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="parent_id" position="after">
+                             <field name="facility_id" options="{'no_create': True}" string="Facility"  />
+                    </field>
+                </data>
+            </field>
+        </record>
+    </data>
+</odoo>

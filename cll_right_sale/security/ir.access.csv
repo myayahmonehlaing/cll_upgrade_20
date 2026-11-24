@@ -1,0 +1,9 @@
+id,name,model_id,group_id/id,operation,domain
+access_sale_center_manager,model_sale_center_manager_access,sale.center,cll_right_sale.group_sale_center_manager,crud
+access_sale_center_line_manager,model_sale_center_line_manager,sale.center.product.line,cll_right_sale.group_sale_center_manager,crud
+access_sale_center_read,model_sale_center_read_access,sale.center,cll_right_sale.group_sale_center_read,r,"['|', ('user_ids', '=', False), ('user_ids', '=', user.id)]"
+access_sale_center_line_read,model_sale_center_line_read,sale.center.product.line,cll_right_sale.group_sale_center_read,r
+access_sale_center_write,model_sale_center_write_access,sale.center,cll_right_sale.group_sale_center_write,ru,"['|', ('user_ids', '=', False), ('user_ids', '=', user.id)]"
+access_sale_center_line_write,model_sale_center_line_write,sale.center.product.line,cll_right_sale.group_sale_center_write,crud
+sale_center_comp_rule,Sales Center multi-company,sale.center,,crud,"[('company_id', 'in', company_ids)]"
+sale_center_line_comp_rule,Sales Center Line multi-company,sale.center.product.line,,crud,"[('company_id', 'in', company_ids)]"

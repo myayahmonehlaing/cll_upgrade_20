@@ -1,0 +1,21 @@
+<odoo>
+   <data>
+        <record id="view_hr_expense_tree_inherit" model="ir.ui.view">
+            <field name="name">hr.expense.tree.inherit</field>
+            <field name="model">hr.expense</field>
+             <field name="inherit_id" ref="hr_expense.hr_expense_view_expenses_analysis_tree"/>
+            <field name="arch" type="xml">
+                 <field name="company_id" position="after">
+<!--                     <field name="facility_id" optional="hide"/>-->
+                     <field name="description" optional="hide"/>
+                </field>
+            </field>
+        </record>
+
+        <menuitem id="menu_employee_advance" sequence="70" parent="hr_expense.menu_hr_expense_root"
+        action="cll_account.action_move_in_invoice_advance" name="Employee Advance" groups="cll_account.group_employee_advance_user"/>
+
+       <menuitem id="menu_expense_move_in_invoice_vendor_advance" action="action_move_in_invoice_vendor_advance" sequence="75" parent="hr_expense.menu_hr_expense_root"/>
+
+   </data>
+</odoo>

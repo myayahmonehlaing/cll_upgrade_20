@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem
+        id="menu_employee_access_control_root"
+        name="Employee Access Control"
+        sequence="10"
+        web_icon="cll_employee_access_control,static/description/icon.png"
+    />
+
+    <menuitem
+        id="menu_employee_access_control_main"
+        name="Requests"
+        parent="menu_employee_access_control_root"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_employee_access_control_odoo"
+        name="Odoo User Account Requests"
+        parent="menu_employee_access_control_main"
+        action="cll_employee_access_control.action_employee_access_control_odoo"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_employee_access_control_others"
+        name="HIS User Account Requests"
+        parent="menu_employee_access_control_main"
+        action="cll_employee_access_control.action_employee_access_control_others"
+        sequence="20"
+    />
+
+    <menuitem
+        id="menu_employee_access_control_workspace"
+        name="Workspace Account Requests"
+        parent="menu_employee_access_control_main"
+        action="cll_employee_access_control.action_employee_access_control_workspace"
+        sequence="30"
+    />
+
+    <menuitem
+        id="menu_user_handover_request"
+        name="Handover Requests"
+        parent="menu_employee_access_control_main"
+        action="cll_employee_access_control.action_employee_handover_request"
+        sequence="35"
+    />
+
+    <menuitem
+        id="menu_cll_configuration_root"
+        name="Configuration"
+        parent="menu_employee_access_control_root"
+        groups="cll_employee_access_control.group_employee_access_control_manager"
+        sequence="20"
+    />
+
+    <menuitem
+        id="menu_employee_access_control_approval_rule"
+        name="Approval Rules"
+        parent="menu_cll_configuration_root"
+        action="cll_employee_access_control.action_employee_access_control_approval_rule"
+        sequence="10"
+    />
+
+   <menuitem
+        id="menu_cll_company"
+        name="Companies"
+        parent="menu_cll_configuration_root"
+        action="cll_employee_access_control.action_cll_company"
+        sequence="15"
+    />
+
+   <menuitem
+        id="menu_cll_facility"
+        name="Facilities"
+        parent="menu_cll_configuration_root"
+        action="cll_employee_access_control.action_cll_facility"
+        sequence="17"
+    />
+
+    <menuitem
+        id="menu_cll_system"
+        name="Systems"
+        parent="menu_cll_configuration_root"
+        action="cll_employee_access_control.action_cll_system"
+        sequence="20"
+    />
+
+    <menuitem
+        id="menu_cll_system_tag"
+        name="System Tags"
+        parent="menu_cll_configuration_root"
+        action="cll_employee_access_control.action_cll_system_tag"
+        sequence="30"
+    />
+
+    <menuitem
+        id="menu_cll_system_application"
+        name="Applications"
+        parent="menu_cll_configuration_root"
+        action="cll_employee_access_control.action_cll_system_application"
+        sequence="40"
+    />
+
+    <menuitem
+        id="menu_cll_system_roles"
+        name="Groups"
+        parent="menu_cll_configuration_root"
+        action="cll_employee_access_control.action_cll_system_role"
+        sequence="50"
+    />
+
+    <menuitem
+        id="menu_employee_system_overview_main"
+        name="System Overview"
+        parent="menu_employee_access_control_root"
+        groups="group_employee_access_control_manager"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_employee_system_odoo"
+        name="Odoo"
+        parent="menu_employee_system_overview_main"
+        action="cll_employee_access_control.action_employee_system_odoo_overview"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_employee_system_others"
+        name="HIS"
+        parent="menu_employee_system_overview_main"
+        action="cll_employee_access_control.action_employee_system_others_overview"
+        sequence="11"
+    />
+
+    <menuitem
+        id="menu_employee_system_workspace"
+        name="Google Workspace"
+        parent="menu_employee_system_overview_main"
+        action="cll_employee_access_control.action_employee_system_workspace_overview"
+        sequence="12"
+    />
+
+    <menuitem id="menu_hr_asset_request"
+          name="Asset Requests"
+          groups="group_employee_access_control_user"
+          parent="menu_employee_access_control_root"
+          action="action_hr_asset_request"
+          sequence="10"/>
+
+ <menuitem id="menu_system_overview_dashboard"
+          name="Dashboard"
+          parent="menu_employee_access_control_root"
+          action="method_action_system_overview_dashboard"
+          groups="group_employee_access_control_manager"
+          sequence="1"/>
+
+</odoo>

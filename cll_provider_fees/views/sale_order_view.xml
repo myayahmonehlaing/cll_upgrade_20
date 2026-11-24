@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+        <record id="view_order_form_inherit_provider_bill" model="ir.ui.view">
+            <field name="name">sale.order.form.view.inherit.provider.bill</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <div  name="button_box" position="inside">
+                     <button name="action_view_provider_bill"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-pencil-square-o"
+                        invisible="provider_bill_count == 0">
+                        <field name="provider_bill_count" widget="statinfo" string="Provider Bills"/>
+                    </button>
+                </div>
+
+                
+            </field>
+        </record>
+    </data>
+</odoo>

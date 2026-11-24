@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="cll_stock.ApplyAll.Buttons" t-inherit="stock.InventoryReport.Buttons" t-inherit-mode="extension">
+        <xpath expr="//button[@class='btn btn-secondary' and @t-on-click='onClickApplyAll']" position="attributes">
+            <attribute name="class">d-none</attribute>
+        </xpath>
+    </t>
+</templates>

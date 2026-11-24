@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="PartnerDetailsEdit" t-inherit="point_of_sale.PartnerDetailsEdit" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('partner-details-box')]" position="inside">
+            <div class="partner-detail col">
+                <label class="form-label label" for="Date of Birth">Date of Birth</label>
+                <input class="detail form-control" id="date_of_birth" name="date_of_birth"
+                        t-model="changes.date_of_birth"
+                        type="date"
+                        t-att-class="{'border-danger': missingFields.includes(date_of_birth)}"/>
+                </div>
+            <div class="partner-detail col">
+                <label class="form-label label" for="age">Age</label>
+                <input class="detail form-control" id="age" name="age"
+                        t-model="changes.age"
+                        type="text"
+                        t-att-class="{'border-danger': missingFields.includes(age)}" disabled="1"/>
+            </div>
+
+            <div class="partner-detail col">
+                <span class="form-label label">Gender</span>
+                <select class="gender_id detail form-select" id="gender_id" name="gender_id" t-model="changes.gender_id" t-att-class="{'border-danger': missingFields.includes('gender_id')}">
+                    <option value=''>None</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="partner-detail col">
+                <span class="form-label label">Company</span>
+                <select class="parent_id detail form-select" id="parent_id" name="parent_id" t-model="changes.parent_id" t-att-class="{'border-danger': missingFields.includes('parent_id')}">
+                    <option value='0'>None</option>
+                    <t t-foreach="pos.parent_id" t-as="parent_id" t-key="parent_id.id">
+                        <option t-att-value="parent_id.id">
+                            <t t-esc="parent_id.name" />
+                        </option>
+                    </t>
+                </select>
+            </div>
+        </xpath>
+    </t>
+</templates>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="spreadsheet_dashboard_group_system" model="spreadsheet.dashboard.group">
+        <field name="name">System Overview</field>
+        <field name="sequence">100</field>
+    </record>
+
+    <record id="spreadsheet_dashboard_system_overview" model="spreadsheet.dashboard">
+        <field name="name">System Overview</field>
+        <field name="spreadsheet_binary_data" type="base64" file="cll_employee_access_control/data/files/system_overview_dashboard.json"/>
+        <field name="dashboard_group_id" ref="spreadsheet_dashboard_group_system"/>
+        <field name="group_ids" eval="[Command.link(ref('group_employee_access_control_manager'))]"/>
+        <field name="sequence">100</field>
+    </record>
+
+</odoo>

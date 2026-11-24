@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cll_system_tag_form" model="ir.ui.view">
+        <field name="name">cll.system.tag.form</field>
+        <field name="model">cll.system.tag</field>
+        <field name="arch" type="xml">
+            <form string="System Tag">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="color" widget="color_picker"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_cll_system_tag_tree" model="ir.ui.view">
+        <field name="name">cll.system.tag.tree</field>
+        <field name="model">cll.system.tag</field>
+        <field name="arch" type="xml">
+            <list string="System Tags">
+                <field name="name"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_cll_system_tag" model="ir.actions.act_window">
+        <field name="name">System Tags</field>
+        <field name="res_model">cll.system.tag</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

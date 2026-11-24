@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="pos_config_view_form_inherit" model="ir.ui.view">
+       <field name="name">pos.config.form.view.inherit</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form" />
+        <field name="arch" type="xml">
+             <xpath expr="//setting[@id='other_devices']" position="after">
+                 <setting id="pos_analytic_distribution" title="Analytic Account for this config.">
+                        <label for="analytic_distribution" string="Analytic Distribution" />
+                        <div class="text-muted">
+                            Analytic that these orders link to
+                        </div>
+                        <div class="content-group mt16">
+                            <field name="analytic_distribution" widget="analytic_distribution"
+                                required="1"
+                            />
+                        </div>
+                </setting>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

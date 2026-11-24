@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_employee_system_overview_filter" model="ir.ui.view">
+        <field name="name">employee.system.overview.filter</field>
+        <field name="model">employee.system.overview</field>
+        <field name="arch" type="xml">
+            <search string="Search Access Control">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <filter string="Active" domain="[('status', '=','active')]"  name="active"/>
+                <filter string="Inactive" domain="[('status', '=', 'inactive')]" name="inactive"/>
+                <separator/>
+                <filter string="Odoo" name="search_system_odoo" domain="[('system_id.is_odoo', '=', True)]" />
+                <filter string="Workspace" name="search_system_workspace" domain="[('system_id.is_workspace', '=', True)]" />
+                <filter string="HIS" name="search_system_others" domain="[('system_id.is_odoo', '=', False),('system_id.is_workspace', '=', False)]" />
+                <separator/>
+                <group>
+                    <filter name="group_employee" string="Status" context="{'group_by':'employee_id'}"/>
+                    <filter name="group_active" string="Status" context="{'group_by':'status'}"/>
+                    <filter name="group_system" string="System" context="{'group_by':'system_id'}"/>
+                    <filter name="group_department" string="Department" context="{'group_by': 'department_id'}"/>
+                    <filter name="group_company" string="Company" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_employee_system_overview_tree" model="ir.ui.view">
+        <field name="name">employee.system.overview.tree</field>
+        <field name="model">employee.system.overview</field>
+        <field name="arch" type="xml">
+            <list string="Systems" create="0" edit="0" delete="0" editable="bottom">
+                 <field name="name"/>
+                 <field name="employee_id"  widget="many2one_avatar_user"/>
+                 <field name="job_id"/>
+                 <field name="department_id" />
+                 <field name="system_id"/>
+                 <field name="active_date"/>
+                 <field name="inactive_date"/>
+                 <field name="status"   widget="badge" decoration-muted="status == 'inactive'" decoration-success="status == 'active'" />
+                 <field name="company_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_employee_system_overview_pivot" model="ir.ui.view">
+    <field name="name">employee.system.overview.pivot</field>
+    <field name="model">employee.system.overview</field>
+    <field name="arch" type="xml">
+        <pivot string="System Overview Analysis">
+            <field name="system_id" type="row"/>
+            <field name="company_id" type="row"/>
+            <field name="department_id" type="row"/>
+            <field name="status" type="col"/>
+        </pivot>
+    </field>
+    </record>
+
+    <record id="view_employee_system_overview_graph" model="ir.ui.view">
+    <field name="name">employee.system.overview.graph</field>
+    <field name="model">employee.system.overview</field>
+    <field name="arch" type="xml">
+        <graph string="System Overview Graph" type="bar">
+            <field name="system_id" type="row"/>
+            <field name="status" type="col"/>
+        </graph>
+    </field>
+    </record>
+
+    <record id="action_employee_system_odoo_overview" model="ir.actions.act_window">
+        <field name="name"> Odoo Overview</field>
+        <field name="res_model">employee.system.overview</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="domain">[]</field>
+        <field name="context">{
+                     'search_default_search_system_odoo': 1,
+                }
+         </field>
+    </record>
+
+    <record id="action_employee_system_others_overview" model="ir.actions.act_window">
+        <field name="name"> HIS Overview</field>
+        <field name="res_model">employee.system.overview</field>
+        <field name="view_mode">list,pivot,graph</field>
+       <field name="domain">[]</field>
+       <field name="context">{
+                     'search_default_search_system_others': 1,
+                }
+       </field>
+    </record>
+
+    <record id="action_employee_system_workspace_overview" model="ir.actions.act_window">
+        <field name="name"> Workspace Overview </field>
+        <field name="res_model">employee.system.overview</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="domain">[]</field>
+        <field name="context">{
+                     'search_default_search_system_workspace': 1,
+                }
+         </field>
+    </record>
+
+    <record id="method_action_system_overview_dashboard" model="ir.actions.server">
+            <field name="name">System Overview Dashboard</field>
+            <field name="model_id" ref="model_employee_system_overview"/>
+            <field name="state">code</field>
+            <field name="code">action = model.get_action_spreadsheet_dashboard()</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,7 @@
+id,name,model_id,group_id/id,operation,domain
+access_provider_fee_policy,access_provider_fee_policy,provider.fee.policy,base.group_user,r
+access_provider_fee_policy_line,access_provider_fee_policy_line,provider.fee.policy.line,base.group_user,r
+access_provider_fee_policy_manager,access_provider_fee_policy_manager,provider.fee.policy,sales_team.group_sale_manager,crud
+access_provider_fee_policy_line_manager,access_provider_fee_policy_line_manager,provider.fee.policy.line,sales_team.group_sale_manager,crud
+provider_fee_policy_multicompany_rule,Provider Fee Policy Multi-Company,provider.fee.policy,,crud,"[('company_id', 'in', company_ids)]"
+provider_fee_policy_line_multicompany_rule,Provider Fee Policy Line Multi-Company,provider.fee.policy.line,,crud,"[('company_id', 'in', company_ids)]"

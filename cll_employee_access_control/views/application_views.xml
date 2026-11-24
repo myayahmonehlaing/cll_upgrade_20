@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cll_system_application_filter" model="ir.ui.view">
+        <field name="name">cll.system.application.filter</field>
+        <field name="model">cll.system.application</field>
+        <field name="arch" type="xml">
+            <search string="Search Application">
+                <field name="name"/>
+                <field name="system_id"/>
+                <separator/>
+                <filter string="Odoo" name="search_system_odoo" domain="[('system_id.is_odoo', '=', True)]" />
+                <filter string="Workspace" name="search_system_workspace" domain="[('system_id.is_workspace', '=', True)]" />
+                <filter string="Other Systems" name="search_system_others" domain="[('system_id.is_odoo', '=', False),('system_id.is_workspace', '=', False)]" />
+                <separator/>
+                <group>
+                    <filter name="group_system" string="System" context="{'group_by':'system_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_cll_system_application_form" model="ir.ui.view">
+        <field name="name">cll.system.application.form</field>
+        <field name="model">cll.system.application</field>
+        <field name="arch" type="xml">
+            <form string="Module Application">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                        <group>
+                            <field name="system_id"/>
+                          </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_cll_system_application_tree" model="ir.ui.view">
+        <field name="name">cll.system.application.tree</field>
+        <field name="model">cll.system.application</field>
+        <field name="arch" type="xml">
+            <list string="Module Applications">
+                <field name="name"/>
+                <field name="system_id"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_cll_system_application" model="ir.actions.act_window">
+        <field name="name">Module Applications</field>
+        <field name="res_model">cll.system.application</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

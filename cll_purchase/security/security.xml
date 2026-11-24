@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <data noupdate="0">
+        <record id="group_purchase_subcon_user" model="res.groups">
+            <field name="name">Subcon User</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="privilege_id" ref="purchase.res_groups_privilege_purchase"/>
+        </record>
+        <record id="purchase.group_purchase_manager" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('group_purchase_subcon_user')), (4, ref('purchase.group_purchase_user'))]"/>
+        </record>
+    </data>
+<!--    <data noupdate="1">-->
+<!--         <record model="ir.rule" id="purchase_order_manager_rule">-->
+<!--            <field name="name">Purchase Order Manager</field>-->
+<!--            <field name="model_id" ref="purchase.model_purchase_order"/>-->
+<!--            <field name="groups" eval="[(4, ref('purchase.group_purchase_manager'))]"/>-->
+<!--            <field name="domain_force">	[(1, '=', 1)] </field>-->
+<!--        </record>-->
+
+<!--        <record model="ir.rule" id="purchase_order_user_rule">-->
+<!--            <field name="name">Purchase Order User</field>-->
+<!--            <field name="model_id" ref="purchase.model_purchase_order"/>-->
+<!--            <field name="groups" eval="[(4, ref('purchase.group_purchase_user'))]"/>-->
+<!--            <field name="domain_force">[('is_subcontract', '=', False)]</field>-->
+<!--        </record>-->
+
+<!--        <record model="ir.rule" id="purchase_order_subcon_rule">-->
+<!--            <field name="name">Purchase Order Subcon</field>-->
+<!--            <field name="model_id" ref="purchase.model_purchase_order"/>-->
+<!--            <field name="groups" eval="[(4, ref('group_purchase_subcon_user'))]"/>-->
+<!--            <field name="domain_force">[('is_subcontract', '=', True)]</field>-->
+<!--        </record>-->
+
+<!--    </data>-->
+</odoo>

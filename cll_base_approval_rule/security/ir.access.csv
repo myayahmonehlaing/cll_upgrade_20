@@ -1,0 +1,11 @@
+id,name,model_id,group_id/id,operation,domain
+access_approval_rule,access_approval_rule,approval.rule,base.group_user,crud
+access_approval_condition,access_approval_condition,approval.condition,base.group_user,crud
+access_approval_condition_line,access_approval_condition_line,approval.condition.line,base.group_user,crud
+access_approval_approver_approver,access_approval_approver_approver,approval.approver.approver,base.group_user,crud
+base.access_ir_model_user,ir_model_all,ir.model,base.group_user,r
+base.access_ir_model_fields_user,ir_model_fields all,ir.model.fields,base.group_user,r
+access_approver_refuse_reason,access_approver_refuse_reason,approval.approver.refuse.wizard,base.group_user,cru
+approval_rule_comp_rule,Approval Rule multi-company,approval.rule,,crud,"[('company_id', 'in', company_ids)]"
+approval_condition_comp_rule,Approval Condition multi-company,approval.condition,,crud,"[('company_id', 'in', company_ids)]"
+approval_condition_line_comp_rule,Approval Condition Line multi-company,approval.condition.line,,crud,"[('company_id', 'in', company_ids)]"

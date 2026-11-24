@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_order_form_facility_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.facility.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                 <field name="payment_term_id" position="after">
+                     <field name="use_facility" invisible="1"/>
+                     <field name="facility_id" readonly="state in ['cancel', 'sale']" options="{'no_create': True}" invisible="not use_facility" required="use_facility"/>
+                 </field>
+            </field>
+       </record>
+
+</odoo>

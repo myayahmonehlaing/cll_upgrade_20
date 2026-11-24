@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_picking_form_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+             <field name="picking_type_id" position="attributes">
+                 <attribute name="domain"> [('id', 'in', available_picking_type_ids)] </attribute>
+             </field>
+            <field name="origin" position="after">
+                 <field name="transfer_picking" invisible="1"/>
+                  <field name="transfer_status" readonly="1" invisible="not transfer_picking"/>
+
+                <field name="available_picking_type_ids"  invisible="1"/>
+            </field>
+            <xpath expr="//button[@name='button_validate']" position="after">
+           <button string="Transfer" class="oe_highlight" name="action_transfer_done" type="object" invisible="not transfer_picking or transfer_status =='done'"/>
+           </xpath>
+        </field>
+    </record>
+</odoo>

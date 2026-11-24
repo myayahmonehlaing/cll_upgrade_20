@@ -1,0 +1,113 @@
+<odoo>
+   <data>
+         <record id="approval_rule_form_view" model="ir.ui.view">
+            <field name="name">approval.rule.form.view</field>
+            <field name="model">approval.rule</field>
+            <field name="arch" type="xml">
+                 <form>
+                      <sheet>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name"/>
+                                </h1>
+                            </div>
+                            <group>
+                                 <group>
+                                      <field name="model_id"  />
+                                </group>
+                                <group>
+                                      <field name="company_id" />
+                                </group>
+                            </group>
+                          <notebook>
+                              <page>
+                                  <field name="condition_ids"   mode="form,list">
+                                      <form>
+                                           <group>
+                                                 <group>
+                                                      <field name="name" />
+                                                      <field name="mandatory" />
+                                                </group>
+                                                <group>
+                                                     <field name="condition_type"  />
+                                                     <field name="field_ids" invisible="condition_type != 'field'" widget="many2many_tags"/>
+                                                     <field name="optional_approver_ids" widget="many2many_tags" invisible="condition_type != 'optional'"/>
+                                                </group>
+                                           </group>
+                                            <group colspan="2">
+                                                 <field name="line_ids" invisible="condition_type != 'user'"  nolabel="1"  colspan="2">
+                                                     <list editable="bottom">
+                                                         <field name="name" />
+                                                         <field name="amount" />
+                                                         <field name="currency_ids" widget="many2many_tags"/>
+                                                         <field name="user_ids" widget="many2many_tags"/>
+                                                     </list>
+                                                 </field>
+                                            </group>
+                                      </form>
+                                      <list>
+                                         <field name="sequence" widget="handle" />
+                                         <field name="name" />
+                                         <field name="mandatory" />
+                                         <field name="condition_type" />
+
+                                      </list>
+
+                                  </field>
+                              </page>
+                          </notebook>
+                    </sheet>
+                 </form>
+
+            </field>
+        </record>
+
+        <record id="approval_rule_tree_view" model="ir.ui.view">
+            <field name="name">approval.rule.tree.view</field>
+            <field name="model">approval.rule</field>
+            <field name="arch" type="xml">
+                <list string="Approval Rules">
+                    <field name="name" />
+                    <field name="model_id" />
+                    <field name="company_id" />
+                </list>
+            </field>
+        </record>
+
+        <record id="action_account_move_approval_rule" model="ir.actions.act_window">
+            <field name="name">Account Approval Rule</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">approval.rule</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('model_id.model', '=', 'account.move')]</field>
+        </record>
+
+		<menuitem
+    		id="menu_account_move_approval_rule"
+    		action="action_account_move_approval_rule"
+    		name="Account Approval Rules"
+            groups ="cll_base_approval_rule.group_approval_rule_user"
+    		parent="account.account_invoicing_menu"
+    		sequence="100"/>
+
+        <record id="action_hr_expense_approval_rule" model="ir.actions.act_window">
+            <field name="name">Expense Approval Rule</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">approval.rule</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[]</field>
+        </record>
+
+		<menuitem
+    		id="menu_hr_expense_approval_rule"
+    		action="action_hr_expense_approval_rule"
+    		name="Expense Approval Rules"
+            groups ="cll_base_approval_rule.group_approval_rule_user"
+    		parent="hr_expense.menu_hr_expense_configuration"
+    		sequence="100"/>
+
+   </data>
+</odoo>
+

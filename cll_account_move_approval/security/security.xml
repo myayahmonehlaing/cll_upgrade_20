@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <function name="write" model="ir.model.data">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module', '=', 'account'), ('name', '=', 'account_move_see_all')]"/>
+        </function>
+        <value eval="{'noupdate': False}"/>
+    </function>
+
+   <function name="write" model="ir.model.data">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module', '=', 'account'), ('name', '=', 'account_move_line_see_all')]"/>
+        </function>
+        <value eval="{'noupdate': False}"/>
+    </function>
+
+    <record id="post_and_register_payment_permission_group" model="res.groups">
+        <field name="name">Post and Register Payment Permission</field>
+    </record>
+
+   <record id="reset_to_draft_permission_group" model="res.groups">
+        <field name="name"> Reset to Draft Permission </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_send_admin_notification" model="ir.actions.server">
+        <field name="name">Send Admin Notification</field>
+        <field name="model_id" ref="model_employee_access_control"/>
+        <field name="state">code</field>
+        <field name="code">
+action = records.action_send_admin_notification()
+        </field>
+    </record>
+
+    <record id="view_employee_access_control_filter" model="ir.ui.view">
+        <field name="name">employee.access.control.filter</field>
+        <field name="model">employee.access.control</field>
+        <field name="arch" type="xml">
+            <search string="Search Access Control">
+                <field name="employee_id"/>
+                <field name="name"/>
+                <field name="department_id"/>
+                 <field name="approval_condition_status"/>
+                <filter domain="[('state', '=', 'submit')]" string="To Approve" name="second_approval"/>
+                <filter string="Approved" domain="[('state', '=', 'approve')]" name="approved"/>
+                <separator/>
+                <filter string="Odoo" name="search_system_odoo" domain="[('is_odoo', '=', True)]" />
+                <filter string="Workspace" name="search_system_workspace" domain="[('is_workspace', '=', True)]" />
+                <filter string="HIS" name="search_system_others" domain="[('is_odoo', '=', False),('is_workspace', '=', False)]" />
+                <separator/>
+                <group>
+                    <filter name="group_request_type" string="Request Type" context="{'group_by':'request_type'}"/>
+                    <filter name="group_workspace_type" string="Workspace Type" context="{'group_by':'workspace_type'}"/>
+                    <filter name="group_system" string="System" context="{'group_by':'system_id'}"/>
+                    <filter name="group_date" string="Date" context="{'group_by': 'date'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_approval_status" string="Approval Status" context="{'group_by': 'approval_condition_status'}"/>
+                     <filter name="group_department" string="Department" context="{'group_by': 'department_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_employee_access_control_form" model="ir.ui.view">
+        <field name="name">employee.access.control.form</field>
+        <field name="model">employee.access.control</field>
+        <field name="arch" type="xml">
+            <form string="User Request">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="confirm,approve1,approve"/>
+                    <field name="user_status" invisible="1"/>
+                    <field name="can_cancel" invisible="1"/>
+                    <field name="is_odoo" invisible="1"/>
+                    <field name="is_workspace" invisible="1"/>
+                    <field name="can_edit" invisible="1"/>
+
+                    <button string="Cancel" name="action_cancel" type="object" invisible="not can_cancel or state != 'submit'"/>
+                    <button string="Reset to Draft" name="action_draft" type="object" invisible="state not in ('cancel','refuse')"/>
+                    <button name="action_submit" type="object" string="Submit" class="btn-primary" invisible="not id or state != 'draft'"/>
+                    <button name="approve_approval_approver" type="object" string="Approve" class="oe_highlight" invisible="user_status != 'submit'"/>
+                    <!-- For already approved requests -->
+                    <button name="action_send_admin_notification" string="Send Admin Notification" type="object" class="oe_highlight" invisible="state!= 'approve'"/>
+                    <button name="action_send_admin_notification" string="Resend Admin Notification" type="object" invisible="state != 'vendor_action'"/>
+                    <button name="action_done" type="object" string="Mark as Done" class="btn-success" invisible="state != 'vendor_action'"/>
+                    <button name="%(cll_base_approval_rule.approval_refuse_wizard_action)d" type="action" string="Refuse" class="btn-secondary" invisible="user_status != 'submit'"/>
+
+                </header>
+                <sheet>
+                         <field name="approval_condition_status" class="float-end fs-6"
+                       widget="badge"  decoration-success="1"
+                     />
+                    <div class="oe_title">
+                            <h1><field name="name" readonly="1"/></h1>
+                    </div>
+
+                    <group>
+                        <group>
+
+                            <field name="employee_id"  widget="many2one_avatar_user" readonly="state !='draft'" options="{'no_create':1,'no_create_edit':1, 'no_open': 1}"/>
+                            <field name="fingerprint_id"/>
+                            <field name="email" readonly="state !='draft'"/>
+                            <field name="department_id" readonly="1" options="{'no_open': 1}"/>
+                            <field name="job_id" readonly="1"/>
+                            <field name="company_id" readonly="state !='draft'"/>
+                        </group>
+                        <group>
+                            <field name="date" readonly="not can_edit"/>
+                            <field name="system_id" domain="[('is_odoo', '=', context.get('system') == 'odoo')]" invisible="not context.get('system') == 'odoo'"
+                                    readonly="state !='draft'"  options="{'horizontal': True,'no_create':1,'no_create_edit':1, 'no_open': 1}"/>
+                            <field name="system_id" domain="[('is_workspace', '=', context.get('system') == 'workspace')]" invisible="not context.get('system') == 'workspace'"
+                                    readonly="state !='draft'"   options="{'horizontal': True,'no_create':1,'no_create_edit':1, 'no_open': 1}"/>
+                             <field name="system_id" domain="[('is_workspace', '=', False),('is_odoo', '=', False)]" invisible="not context.get('system') == 'others'"
+                                    readonly="state !='draft'"   options="{'horizontal': True,'no_create':1,'no_create_edit':1, 'no_open': 1}"/>
+                             <field name="system_id" invisible="context.get('system') in ['odoo','workspace','others']"
+                                    readonly="state !='draft'"  options="{'horizontal': True,'no_create':1,'no_create_edit':1, 'no_open': 1}"/>
+
+                             <field name="request_type"  readonly="not can_edit" widget="radio"  options="{'horizontal': True}"
+                                   invisible="is_workspace == True" required="is_workspace == False"/>
+                            <field name="workspace_type"  readonly="not can_edit" invisible="is_workspace == False" required="is_workspace == True"/>
+                             <field name="workspace_email"  readonly="not can_edit" invisible="is_workspace == False or  workspace_type =='primary'"  required="is_workspace == True and workspace_type =='alias'"/>
+                             <field name="access_facilities"  invisible="is_workspace == True or is_odoo == True" widget="many2many_tags" readonly="not can_edit" options="{'no_create':1,'no_create_edit':1, 'no_open': 1}"/>
+                             <field name="access_companies"  invisible="is_workspace == True" widget="many2many_tags" readonly="not can_edit" options="{'no_create':1,'no_create_edit':1, 'no_open': 1}"/>
+                            <field name="is_privileged_required" widget="boolean_toggle"  readonly="state !='draft'"  invisible="is_workspace == True" />
+                        </group>
+                    </group>
+
+                    <notebook>
+                         <page string="Access Right" invisible="is_workspace == True">
+                            <group>
+                                <field name="group_ids" />
+                            </group>
+                         </page>
+                        <page string="Notes" >
+                                <div>
+                                    <field name="description" placeholder="Notes..." />
+                                </div>
+                         </page>
+                        <page string="Approver(s)" name="approvers">
+                            <group>
+                              <group>
+                                     <field name="approval_condition_ids" widget="many2many_checkboxes"  force_save="1" readonly="1"/>
+                              </group>
+                                <group>
+                                      <field name="approval_rule_id" readonly="1" options="{'no_create': True,'no_open': True}" force_save="1"/>
+                                </group>
+                            </group>
+
+                            <field name="approver_ids" mode="list,form" readonly="1">
+                                <list editable="bottom" decoration-success="status=='approve'" decoration-warning="status in ['submit','waiting']" decoration-danger="status=='cancel'">
+                                    <field name="company_id" column_invisible="True"/>
+                                    <field name="user_id" string="Approver" />
+                                    <field name="status"/>
+                                    <field name="name" string="Role"/>
+                                </list>
+                                <kanban class="o_kanban_mobile">
+                                    <field name="user_id"/>
+                                    <field name="status"/>
+                                    <field name="name"/>
+                                    <templates>
+                                        <t t-name="card">
+                                            <div class="oe_kanban_card oe_kanban_global_click">
+                                                <div class="o_kanban_content">
+                                                    <t t-esc="record.user_id.value"/>
+                                                    <div>
+                                                        <t t-esc="record.name.value"/>
+                                                    </div>
+                                                    <t t-if="record.status.raw_value">
+                                                        <t t-set="classname" t-value="{'approve': 'text-bg-success', 'submit': 'text-bg-warning', 'waiting': 'text-bg-warning', 'cancel': 'text-bg-danger'}[record.status.raw_value] or 'text-bg-light'"/>
+                                                        <span t-esc="record.status.value" t-attf-class="float-end rounded-pill {{ classname }}"/>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <group>
+                                        <field name="user_id"/>
+                                        <field name="company_id" invisible="1"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_employee_access_control_tree" model="ir.ui.view">
+        <field name="name">employee.access.control.tree</field>
+        <field name="model">employee.access.control</field>
+        <field name="arch" type="xml">
+            <list string="User Request">
+                <field name="company_id" column_invisible="1"/>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="employee_id"  widget="many2one_avatar_user"/>
+                <field name="fingerprint_id"/>
+                <field name="department_id"/>
+                <field name="job_id"/>
+                <field name="request_type" optional="hide"/>
+                <field name="workspace_type"  optional="hide"/>
+                <field name="system_id"/>
+                 <field name="state"  widget="badge"/>
+                <field name="approval_condition_status" decoration-success="1" optional="show" string="Approval Status" widget="badge"/>
+
+            </list>
+        </field>
+    </record>
+
+    <record id="view_employee_access_control_pivot" model="ir.ui.view">
+        <field name="name">employee.access.control.pivot</field>
+        <field name="model">employee.access.control</field>
+        <field name="arch" type="xml">
+            <pivot string="Access Control Analysis">
+                <field name="system_id" type="row"/>
+                <field name="company_id" type="row"/>
+                <field name="department_id" type="row"/>
+                <field name="state" type="col"/>
+            </pivot>
+        </field>
+        </record>
+
+        <record id="view_employee_access_control_graph" model="ir.ui.view">
+        <field name="name">employee.access.control.graph</field>
+        <field name="model">employee.access.control</field>
+        <field name="arch" type="xml">
+            <graph string="Access Control Graph" type="bar">
+                <field name="system_id" type="row"/>
+                <field name="state" type="col"/>
+            </graph>
+        </field>
+        </record>
+
+    <record id="action_employee_access_control_workspace" model="ir.actions.act_window">
+        <field name="name">Google Workspace Account Requests</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">employee.access.control</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="domain">[]</field>
+         <field name="context">{
+                   'search_default_search_system_workspace': 1,
+                   'system': 'workspace',
+                }
+         </field>
+    </record>
+
+    <record id="action_employee_access_control_odoo" model="ir.actions.act_window">
+        <field name="name">Odoo User Account Requests</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">employee.access.control</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="domain">[]</field>
+        <field name="context">{
+                     'search_default_search_system_odoo': 1,
+                     'system': 'odoo',
+                }
+         </field>
+    </record>
+
+    <record id="action_employee_access_control_others" model="ir.actions.act_window">
+        <field name="name">HIS User Account Requests</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">employee.access.control</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="domain">[]</field>
+        <field name="context">{
+                     'search_default_search_system_others': 1,
+                     'system': 'others',
+                }
+         </field>
+    </record>
+
+
+
+    <record id="action_employee_access_control_approval_rule" model="ir.actions.act_window">
+        <field name="name">Approval Rules</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">approval.rule</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('model_id.model', 'in', ['employee.access.control','employee.handover.request'])]</field>
+    </record>
+
+     <data noupdate="1">
+        <record id="cll_roles_view" model="ir.ui.view">
+            <field name="name">employee.access.control.roles</field>
+            <field name="model">employee.access.control</field>
+            <field name="inherit_id" ref="view_employee_access_control_form"/>
+             <field name="priority">40</field>
+            <!-- Your main form view -->
+            <field name="arch" type="xml">
+                <!-- Dummy placeholder that will be replaced by the dynamic content -->
+                <field name="group_ids" position="after"/>
+            </field>
+        </record>
+     </data>
+</odoo>

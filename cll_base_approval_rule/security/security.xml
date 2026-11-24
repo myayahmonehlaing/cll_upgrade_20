@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+   <record id="group_approval_rule_user" model="res.groups">
+        <field name="name"> Approval Rule</field>
+    </record>
+<!--    <record id="approval_rule_comp_rule" model="ir.rule">-->
+<!--        <field name="name">Approval Rule multi-company</field>-->
+<!--        <field name="model_id" ref="model_approval_rule"/>-->
+<!--        <field name="domain_force">[('company_id', 'in', company_ids)]</field>-->
+<!--    </record>-->
+<!--    <record id="approval_condition_comp_rule" model="ir.rule">-->
+<!--        <field name="name">Approval Condition multi-company</field>-->
+<!--        <field name="model_id" ref="model_approval_condition"/>-->
+<!--        <field name="domain_force">[('company_id', 'in', company_ids)]</field>-->
+<!--    </record>-->
+<!--    <record id="approval_condition_line_comp_rule" model="ir.rule">-->
+<!--        <field name="name">Approval Condition Line multi-company</field>-->
+<!--        <field name="model_id" ref="model_approval_condition_line"/>-->
+<!--        <field name="domain_force">[('company_id', 'in', company_ids)]</field>-->
+<!--    </record>-->
+</odoo>

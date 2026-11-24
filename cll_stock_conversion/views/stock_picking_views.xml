@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_form_conversion_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.conversion.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+             <field name="arch" type="xml">
+                  <field name="use_create_lots" position="after">
+                        <field name="convertible_picking" invisible="True"/>
+                  </field>
+                   <xpath expr="//header" position="inside">
+                       <button name="%(cll_stock_conversion.act_stock_conversion_picking)d" string="Convert"
+                               invisible="state != 'done' or convertible_picking == False " type="action"
+                               groups="base.group_user" data-hotkey="c"/>
+                   </xpath>
+                  <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                      <button name="action_open_convert_productions"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-industry"
+                            invisible="convertible_picking == False "
+                           >
+                        <field name="convert_production_ids" widget="statinfo" string="Converted MOs"/>
+                     </button>
+                </xpath>
+             </field>
+    </record>
+</odoo>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_posorder_label_print">
+    <t t-set="table_style" t-value="'width:40mm; height:20mm; display: flex; flex-direction: column; justify-content: center; gap: 0;' + table_style"/>
+    <t t-set="today" t-value="datetime.datetime.today()"/>
+    <t t-set="birthdate" t-value="partner_id.date_of_birth"/>
+    <td t-att-style="make_invisible and 'visibility:hidden;'">
+        <div class="o_label_full" t-att-style="table_style">
+            <div class="row" style="font-size: 8px; width: 100%; margin: 0; padding-top: 1px">
+                <div class="col-6" style="width:75%; margin: 0;">
+                    <strong t-field="posorder.partner_id"/>
+                </div>
+                <div class="col-6" style="width:25%; margin: 0;">
+                    <t t-if="birthdate">
+                        <t t-set="age" t-value="relativedelta(today, birthdate)"/>
+                        <t t-if="age.years &gt; 0">
+                            <strong t-esc="str(age.years) + ' yr'"/>
+                        </t>
+                        <t t-elif="age.months &gt; 0">
+                            <strong t-esc="str(age.months) + ' m'"/>
+                        </t>
+                        <t t-else="">
+                            <strong t-esc="str(age.days) + ' d'"/>
+                        </t>
+                    </t>
+                    <strong>/</strong>
+                    <strong t-esc="'M' if partner_id.gender_id == 'male' else 'F' if partner_id.gender_id == 'female' else 'O'"/>
+                </div>
+            </div>
+            <div style="font-size: 8px; margin: 0;">
+                <t t-set="product_names" t-value="' | '.join(line.product_id.label or '' for line in posorderline)"/>
+                <strong t-esc="product_names"/>
+            </div>
+            <div class="col mt-1" style="font-size: 8px; margin: 0;">
+                <div class="row" style="margin: 0;">
+                    <div class="col-4" style="width:45%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                        <strong t-field="posorder.ref_id"/>
+                    </div>
+                    <div class="col-4" style="width:35%;  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                        <strong t-field="posorder.clinic_id"/>
+                    </div>
+                    <div class="col-4" style="width:20%; margin: 0;">
+                    </div>
+                </div>
+                <div class="row mt-1" style="font-size: 8px; margin: 0;">
+                    <div class="col-4" style="width:37%; margin: 0;">
+                        <strong t-esc="posorder.name.split('/')[1]"/>
+                    </div>
+                    <div class="col-4" style="width:30%; margin: 0;">
+                          <strong t-esc="center.location_id[0].display_name.split('/')[0] if center.location_id else ''"/>
+                    </div>
+                    <div class="col-4" style="width:33%; margin: 0;">
+                        <strong t-esc="report_date"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </td>
+</template>
+
+   <template id="report_posorder_product_label">
+       <t t-name="cll_pos.report_posorder_product_label">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <t t-set="columns" t-value="3"/>
+                    <t t-set="rows" t-value="8"/>
+                    <t t-set="label_number" t-value="0"/>
+                    <t t-set="count" t-vale="no_of_label"/>
+                    <t t-set="start" t-vale="start_position"/>
+                    <div class="container">
+                        <table class="my-0 table table-sm table-borderless">
+                            <t t-foreach="range(rows)" t-as="row">
+                                 <tr>
+
+                                     <t t-foreach="range(columns)" t-as="column">
+                                          <t t-set="label_number" t-value="label_number + 1"/>
+                                            <t t-if="label_number &lt; start_position or label_number &gt;= (no_of_label + start_position)">
+                                                <t t-set="make_invisible" t-value="True"/>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-set="make_invisible" t-value="False"/>
+                                            </t>
+                                            <t t-set="table_style" t-value="'background-color: white'"/>
+                                               <t t-call="cll_pos.report_posorder_label_print">
+                                        </t>
+                                    </t>
+                                 </tr>
+                            </t>
+                    </table>
+
+                   </div>
+                 </div>
+            </t>
+    </t>
+</template>
+
+
+</odoo>

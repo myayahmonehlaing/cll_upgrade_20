@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="rule_pos_config_user" model="ir.rule">
+        <field name="name">Point Of Sale Config User</field>
+        <field name="model_id" ref="point_of_sale.model_pos_config" />
+        <field name="groups" eval="[(4, ref('point_of_sale.group_pos_user'))]"/>
+        <field name="domain_force">
+                [('id', 'in',[ a.id for a in user.pos_config_ids ])]
+        </field>
+    </record>
+
+        <record id="rule_pos_config_manager" model="ir.rule">
+        <field name="name">Point Of Sale Config Manager</field>
+        <field name="model_id" ref="point_of_sale.model_pos_config" />
+        <field name="groups" eval="[(4, ref('point_of_sale.group_pos_manager'))]"/>
+        <field name="domain_force">
+               [(1, '=', 1)]
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,10 @@
+id,name,model_id,group_id/id,operation,domain
+access_pos_order_product,pos.order.product,pos.order,,crud
+stock.access_stock_picking_user,stock.picking user,stock.picking,stock.group_stock_user,cru
+stock.access_stock_picking_manager,stock.picking manager,stock.picking,stock.group_stock_manager,cru
+purchase_stock.access_stock_picking_purchase_user,stock.picking,stock.picking,purchase.group_purchase_user,cru
+purchase_stock.access_stock_picking_purchase_user_manager,stock.picking,stock.picking,purchase.group_purchase_manager,cru
+sale_stock.access_stock_picking_sales,stock.picking.sales,stock.picking,sales_team.group_sale_manager,cru
+point_of_sale.access_stock_picking_pos_user,stock.picking pos_user,stock.picking,point_of_sale.group_pos_user,cru
+rule_pos_config_user,Point Of Sale Config User,pos.config,point_of_sale.group_pos_user,crud,"[('id', 'in',[ a.id for a in user.pos_config_ids ])]"
+rule_pos_config_manager,Point Of Sale Config Manager,pos.config,point_of_sale.group_pos_manager,crud

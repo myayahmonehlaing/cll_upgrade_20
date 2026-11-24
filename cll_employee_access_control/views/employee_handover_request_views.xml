@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+       <record id="view_employee_handover_request_filter" model="ir.ui.view">
+        <field name="name">employee.handover.request.filter</field>
+        <field name="model">employee.handover.request</field>
+        <field name="arch" type="xml">
+            <search string="Search Handover Request">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="approval_condition_status"/>
+                <filter domain="[('state', '=', 'submit')]" string="To Approve" name="second_approval"/>
+                <filter string="Approved" domain="[('state', '=', 'approve')]" name="approved"/>
+                <separator/>
+                <group>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_approval_status" string="Approval Status" context="{'group_by': 'approval_condition_status'}"/>
+                     <filter name="group_department" string="Department" context="{'group_by': 'department_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_employee_handover_request_form" model="ir.ui.view">
+        <field name="name">employee.handover.request.form</field>
+        <field name="model">employee.handover.request</field>
+        <field name="arch" type="xml">
+            <form string="Employee Handover Request">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="confirm,submit,approve1,approve,acknowledge,done"/>
+                    <field name="user_status" invisible="1"/>
+                    <field name="can_cancel" invisible="1"/>
+                    <field name="can_edit" invisible="1"/>
+                    <button string="Cancel" name="action_cancel" type="object" invisible="not can_cancel or state != 'submit'"/>
+                    <button name="action_draft" type="object" string="Reset to Draft" class="btn-secondary" invisible="state != 'cancel'"/>
+                    <button name="action_submit" type="object" string="Submit" class="btn-primary" invisible="not id or state != 'draft'"/>
+                    <button name="approve_approval_approver" type="object" string="Approve" class="oe_highlight" invisible="user_status != 'submit'"/>
+                    <button name="action_done" type="object" string="Mark as Done" class="btn-success" invisible="state != 'acknowledge'"/>
+                    <button name="action_acknowledge" type="object" string="Acknowledge" class="btn-success" invisible="state != 'approve'"/>
+                    <button name="%(cll_base_approval_rule.approval_refuse_wizard_action)d" type="action" string="Refuse" class="btn-secondary" invisible="user_status != 'submit'"/>
+                </header>
+                <sheet>
+                      <field name="approval_condition_status" class="float-end fs-6"
+                       widget="badge"
+                       decoration-success="1"
+                     />
+                      <div class="oe_title">
+                            <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id"  widget="many2one_avatar_user"
+                                   required="1" readonly="state !='draft'" options="{'no_create':1,'no_create_edit':1, 'no_open': 1}"/>
+                            <field name="fingerprint_id"/>
+                            <field name="department_id" readonly="1" options="{'no_open': 1}"/>
+                            <field name="job_id" readonly="1"/>
+                            <field name="resignation_date" required="1"  readonly="state !='draft'"/>
+                        </group>
+                        <group>
+                            <field name="date" readonly="state !='draft'"/>
+                            <field name="handover_employee_id"  readonly="not can_edit"  widget="many2one_avatar_user"/>
+                            <field name="system_ids" string="Handover Systems" required="1"
+                                   readonly="state !='draft'"  widget="many2many_tags"  options="{'horizontal': True,'no_create':1,'no_create_edit':1, 'no_open': 1}"/>
+                             <field name="company_id"  readonly="state !='draft'"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Approver(s)" name="approvers">
+                            <group>
+                                <group>
+                                     <field name="approval_condition_ids" widget="many2many_checkboxes"  force_save="1" readonly="1"/>
+                                </group>
+                                <group>
+                                      <field name="approval_rule_id" readonly="1" options="{'no_create': True,'no_open': True}" force_save="1"/>
+                                </group>
+
+                            </group>
+
+                            <field name="approver_ids" mode="list,form" readonly="1">
+                                <list editable="bottom" decoration-success="status=='approve'" decoration-warning="status in ['submit','waiting']" decoration-danger="status=='cancel'">
+                                    <field name="company_id" column_invisible="True"/>
+                                    <field name="user_id" string="Approver" />
+                                    <field name="status"/>
+                                    <field name="name" string="Role"/>
+                                </list>
+                                <kanban class="o_kanban_mobile">
+                                    <field name="user_id"/>
+                                    <field name="status"/>
+                                    <field name="name"/>
+                                    <templates>
+                                        <t t-name="card">
+                                            <div class="oe_kanban_card oe_kanban_global_click">
+                                                <div class="o_kanban_content">
+                                                    <t t-esc="record.user_id.value"/>
+                                                    <div>
+                                                        <t t-esc="record.name.value"/>
+                                                    </div>
+                                                    <t t-if="record.status.raw_value">
+                                                        <t t-set="classname" t-value="{'approve': 'text-bg-success', 'submit': 'text-bg-warning', 'waiting': 'text-bg-warning', 'cancel': 'text-bg-danger'}[record.status.raw_value] or 'text-bg-light'"/>
+                                                        <span t-esc="record.status.value" t-attf-class="float-end rounded-pill {{ classname }}"/>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <group>
+                                        <field name="user_id"/>
+                                        <field name="company_id" invisible="1"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Notes" >
+                                <div>
+                                    <field name="description" placeholder="Notes..." />
+                                </div>
+                         </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id="view_employee_handover_request_tree" model="ir.ui.view">
+        <field name="name">employee.handover.request.tree</field>
+        <field name="model">employee.handover.request</field>
+        <field name="arch" type="xml">
+            <list string="Handover Request">
+                <field name="company_id" column_invisible="1"/>
+                <field name="name"/>
+                <field name="employee_id"  widget="many2one_avatar_user"/>
+                <field name="fingerprint_id"/>
+                <field name="date"/>
+                <field name="department_id"/>
+                <field name="job_id"/>
+                <field name="state"  widget="badge"/>
+                <field name="approval_condition_status" decoration-success="1" optional="show" string="Approval Status" widget="badge"/>
+
+            </list>
+        </field>
+    </record>
+
+    <record id="view_employee_handover_request_pivot" model="ir.ui.view">
+        <field name="name">employee.handover.request.pivot</field>
+        <field name="model">employee.handover.request</field>
+        <field name="arch" type="xml">
+            <pivot string="Handover Request Analysis">
+                <field name="company_id" type="row"/>
+                <field name="department_id" type="row"/>
+                <field name="state" type="col"/>
+            </pivot>
+        </field>
+        </record>
+
+        <record id="view_employee_handover_request_graph" model="ir.ui.view">
+        <field name="name">employee.handover.request.graph</field>
+        <field name="model">employee.handover.request</field>
+        <field name="arch" type="xml">
+            <graph string="Handover Request Graph" type="bar">
+                 <field name="department_id" type="row"/>
+                <field name="state" type="col"/>
+            </graph>
+        </field>
+        </record>
+
+    <record id="action_employee_handover_request" model="ir.actions.act_window">
+        <field name="name">Handover Requests</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">employee.handover.request</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

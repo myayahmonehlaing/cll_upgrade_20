@@ -1,0 +1,14 @@
+<odoo>
+    <!-- Record Rule: Users see only records from their allowed companies -->
+    <record id="provider_fee_policy_multicompany_rule" model="ir.rule">
+        <field name="name">Provider Fee Policy Multi-Company</field>
+        <field name="model_id" ref="model_provider_fee_policy"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="provider_fee_policy_line_multicompany_rule" model="ir.rule">
+        <field name="name">Provider Fee Policy Line Multi-Company</field>
+        <field name="model_id" ref="model_provider_fee_policy_line"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

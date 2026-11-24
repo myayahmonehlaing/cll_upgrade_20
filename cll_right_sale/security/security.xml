@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+         <record model="res.groups.privilege" id="res_groups_privilege_sale_center">
+            <field name="name">Sale Center</field>
+            <field name="category_id" ref="base.module_category_sales"/>
+         </record>
+
+        <record model="res.groups" id="group_sale_center_read">
+            <field name="name">Read-only Access</field>
+             <field name="privilege_id" ref="res_groups_privilege_sale_center"/>
+            <field name="implied_ids" eval="[Command.link(ref('base.group_user'))]"/>
+        </record>
+
+        <record model="res.groups" id="group_sale_center_write">
+            <field name="name">Write Access</field>
+             <field name="privilege_id" ref="res_groups_privilege_sale_center"/>
+            <field name="implied_ids" eval="[Command.link(ref('cll_right_sale.group_sale_center_read'))]"/>
+        </record>
+
+        <record model="res.groups" id="group_sale_center_manager">
+            <field name="name">Manager</field>
+            <field name="privilege_id" ref="res_groups_privilege_sale_center"/>
+            <field name="implied_ids" eval="[Command.link(ref('cll_right_sale.group_sale_center_write'))]"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_employee_system_status_filter" model="ir.ui.view">
+        <field name="name">employee.system.status.filter</field>
+        <field name="model">employee.system.status</field>
+        <field name="arch" type="xml">
+            <search string="Search Access Control">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+
+                <filter string="Active" domain="[('is_active', '=',True)]"  name="active"/>
+                <filter string="Inactive" domain="[('is_active', '=', False)]" name="inactive"/>
+                <separator/>
+                <filter string="Odoo" name="search_system_odoo" domain="[('system_id.is_odoo', '=', True)]" />
+                <filter string="Workspace" name="search_system_workspace" domain="[('system_id.is_workspace', '=', True)]" />
+                <filter string="Other Systems" name="search_system_others" domain="[('system_id.is_odoo', '=', False),('system_id.is_workspace', '=', False)]" />
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="group_active" string="Active" context="{'group_by':'is_active'}"/>
+                    <filter name="group_system" string="System" context="{'group_by':'system_id'}"/>
+                    <filter name="group_department" string="Department" context="{'group_by': 'department_id'}"/>
+                     <filter name="group_company" string="Company" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_employee_system_status_tree" model="ir.ui.view">
+        <field name="name">employee.system.status.tree</field>
+        <field name="model">employee.system.status</field>
+        <field name="arch" type="xml">
+            <list string="Systems" create="0" edit="0">
+                 <field name="name"/>
+                 <field name="employee_id"  widget="many2one_avatar_user"/>
+                <field name="department_id" />
+                 <field name="system_id"/>
+                 <field name="active_date"/>
+                 <field name="inactive_date"/>
+                 <field name="is_active" widget="boolean_toggle" />
+            </list>
+        </field>
+    </record>
+
+    <record id="action_employee_system_odoo_status" model="ir.actions.act_window">
+        <field name="name"> Odoo Status</field>
+        <field name="res_model">employee.system.status</field>
+        <field name="view_mode">list</field>
+        <field name="domain">[('system_id.is_odoo', '=', True)]</field>
+    </record>
+
+    <record id="action_employee_system_others_status" model="ir.actions.act_window">
+        <field name="name"> Others Status</field>
+        <field name="res_model">employee.system.status</field>
+        <field name="view_mode">list</field>
+       <field name="domain">[('system_id.is_odoo', '=', False), ('system_id.is_workspace', '=', False)]</field>
+    </record>
+
+    <record id="action_employee_system_workspace_status" model="ir.actions.act_window">
+        <field name="name"> Google Workspace Status</field>
+        <field name="res_model">employee.system.status</field>
+        <field name="view_mode">list</field>
+        <field name="domain">[('system_id.is_odoo', '=', True)]</field>
+    </record>
+
+</odoo>

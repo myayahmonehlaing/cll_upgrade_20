@@ -1,0 +1,23 @@
+id,name,model_id,group_id/id,operation,domain
+account.account_move_see_all,All Journal Entries,account.move,account.group_account_invoice,crud,"['|',('create_uid', '=', user.id),'&',('approver_ids.user_id', '=', user.id),('move_type', 'in', ('in_invoice', 'in_refund', 'in_receipt'))]"
+account.account_move_line_see_all,All Journal Items,account.move.line,account.group_account_invoice,crud,"['|',('create_uid', '=', user.id),'&',('move_id.approver_ids.user_id', '=', user.id),('move_type', 'in', ('in_invoice', 'in_refund', 'in_receipt')),]"
+account_move_see_advance_user,Journal Entries - Advance User,account.move,cll_account.group_employee_advance_user,crud,"[
+                 '|',
+                     ('id', '=', False),
+                 '|',
+                     ('create_uid', '=', user.id),
+                 '&',
+                    ('approver_ids.user_id', '=', user.id),
+                    ('move_type', 'in', ('in_invoice', 'in_refund', 'in_receipt'))
+            ]"
+account_move_line_see_advance_user,Journal Items - Advance User,account.move.line,cll_account.group_employee_advance_user,crud,"
+             [
+                  '|',
+                  '|',
+                     ('create_uid', '=', user.id),
+                     ('move_id.create_uid', '=', user.id),
+
+                 '&',
+                    ('move_id.approver_ids.user_id', '=', user.id),
+                ('move_type', 'in', ('in_invoice', 'in_refund', 'in_receipt'))
+            ]"

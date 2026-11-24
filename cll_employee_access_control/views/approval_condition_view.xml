@@ -1,0 +1,17 @@
+<odoo>
+   <data>
+         <record id="approval_rule_form_view_inherit" model="ir.ui.view">
+            <field name="name">approval.rule.form.view.inherit</field>
+            <field name="model">approval.rule</field>
+            <field name="inherit_id" ref="cll_base_approval_rule.approval_rule_form_view"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='condition_ids']/form/group/group/field[@name='mandatory']"
+                  position="after">
+                           <field name="hide_user_type" invisible="1"/>
+                           <field name="user_type" invisible="hide_user_type"/>
+                 </xpath>
+            </field>
+        </record>
+   </data>
+</odoo>
+

@@ -1,0 +1,8 @@
+id,name,model_id,group_id/id,operation,domain
+access_purchase_approval_request,access_purchase_approval_request,purchase.approval.request,base.group_user,crud
+access_purchase_approval_request_line,access_purchase_approval_request_line,purchase.approval.request.line,base.group_user,crud
+access_purchase_order_subcon,purchase.order,purchase.order,group_purchase_subcon_user,crud
+access_purchase_order_line_subcon,purchase.order.line subcon,purchase.order.line,group_purchase_subcon_user,crud
+purchase_order_manager_rule,Purchase Order Manager,purchase.order,purchase.group_purchase_manager,crud
+purchase_order_user_rule,Purchase Order User,purchase.order,purchase.group_purchase_user,crud,"[('is_subcontract', '=', False)]"
+purchase_order_subcon_rule,Purchase Order Subcon,purchase.order,cll_purchase.group_purchase_subcon_user,crud,"[('is_subcontract', '=', True)]"

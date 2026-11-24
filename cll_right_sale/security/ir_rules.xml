@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Multi - Company Rules -->
+    <record id="sale_center_comp_rule" model="ir.rule">
+        <field name="name">Sales Center multi-company</field>
+        <field name="model_id" ref="model_sale_center"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="sale_center_line_comp_rule" model="ir.rule">
+        <field name="name">Sales Center Line multi-company</field>
+        <field name="model_id" ref="model_sale_center_product_line"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="security_rule_sale_center_read" model="ir.rule">
+        <field name="name">Sale Center: Restrict to Allowed Users Read</field>
+        <field name="model_id" ref="model_sale_center"/>
+        <field name="domain_force">['|', ('user_ids', '=', False), ('user_ids', '=', user.id)]</field>
+        <field name="groups" eval="[Command.link(ref('cll_right_sale.group_sale_center_read'))]"/>
+         <field name="perm_unlink" eval="0"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_create" eval="0"/>
+    </record>
+
+    <record id="security_rule_sale_center_write" model="ir.rule">
+        <field name="name">Sale Center: Restrict to Allowed Users Write</field>
+        <field name="model_id" ref="model_sale_center"/>
+        <field name="domain_force">['|', ('user_ids', '=', False), ('user_ids', '=', user.id)]</field>
+        <field name="groups" eval="[Command.link(ref('cll_right_sale.group_sale_center_write'))]"/>
+         <field name="perm_unlink" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_create" eval="0"/>
+    </record>
+
+    <record id="security_rule_sale_center_manager" model="ir.rule">
+        <field name="name">Sale Center: Manager</field>
+        <field name="model_id" ref="model_sale_center"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[Command.link(ref('cll_right_sale.group_sale_center_manager'))]"/>
+         <field name="perm_unlink" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_create" eval="1"/>
+    </record>
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <record id="approval_request_view_form_inherit" model="ir.ui.view">
+            <field name="name">approval.request.view.form.inherit</field>
+            <field name="model">approval.request</field>
+            <field name="inherit_id" ref="approvals.approval_request_view_form"/>
+            <field name="arch" type="xml">
+                    <field name="reference" position="after">
+                         <field name="use_facility" invisible="1"/>
+                        <field name="facility_id" readonly="request_status != 'new'" options="{'no_create': True}" invisible="not use_facility" required="use_facility"/>
+                    </field>
+
+            </field>
+         </record>
+
+    </data>
+</odoo>

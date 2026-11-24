@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="view_partner_form_inherit_cll_account" model="ir.ui.view">
+        <field name="name">view.partner.form.inherit.cll.account</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='function']" position="before">
+                <field name="is_customer" widget="boolean_toggle"/>
+                <field name="is_vendor" widget="boolean_toggle"/>
+                <field name="is_employee" widget="boolean_toggle"/>
+            </xpath>
+        </field>
+     </record>
+
+    <record id="view_partner_filter_inherit_cll_account" model="ir.ui.view">
+        <field name="name">res.partner.search.filter.cll.account</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='group_company']" position="after">
+                <filter string="Customer" name="is_customer" domain="[('is_customer', '=', True)]"/>
+                <filter string="Vendor" name="is_vendor" domain="[('is_vendor', '=', True)]"/>
+                <filter string="Employee" name="is_employee" domain="[('is_employee', '=', True)]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account.res_partner_action_customer" model="ir.actions.act_window">
+        <field name="context">{'search_default_customer': 1, 'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_customer_rank': 1, 'default_is_customer': True}</field>
+    </record>
+
+    <record id="account.res_partner_action_supplier" model="ir.actions.act_window">
+        <field name="context">{'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1, 'default_is_vendor': True}</field>
+    </record>
+</odoo>

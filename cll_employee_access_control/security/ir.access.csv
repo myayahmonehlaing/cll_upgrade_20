@@ -1,0 +1,59 @@
+id,name,model_id,group_id/id,operation,domain
+access_cll_system_application_user,cll.system.application.user,cll.system.application,base.group_user,r
+access_cll_system_role_user,cll.system.role.user,cll.system.role,base.group_user,r
+access_cll_system_tag_user,cll.system.tag.user,cll.system.tag,base.group_user,r
+access_cll_system_user,cll.system.user,cll.system,base.group_user,r
+access_cll_company_user,cll.company.user,cll.company,base.group_user,ru
+access_cll_company_manager,cll.company.manager,cll.company,cll_employee_access_control.group_employee_access_control_user,crud
+access_cll_facility_user,cll.facility.user,cll.facility,base.group_user,ru
+access_cll_facility_manager,cll.facility.manager,cll.facility,cll_employee_access_control.group_employee_access_control_user,crud
+access_cll_system_application_manager,cll.system.application.manager,cll.system.application,cll_employee_access_control.group_employee_access_control_manager,crud
+access_cll_system_role_manager,cll.system.role.manager,cll.system.role,cll_employee_access_control.group_employee_access_control_manager,crud
+access_cll_system_tag_manager,cll.system.tag.manager,cll.system.tag,cll_employee_access_control.group_employee_access_control_manager,crud
+access_cll_system_manager,cll.system.manager,cll.system,cll_employee_access_control.group_employee_access_control_manager,crud
+access_employee_access_request_user,employee.access.request.user,employee.access.control,base.group_user,cru
+access_employee_handover_request_user,employee.handover.request.user,employee.handover.request,base.group_user,cru
+access_employee_access_request_manager,employee.access.request.manager,employee.access.control,cll_employee_access_control.group_employee_access_control_manager,crud
+access_employee_handover_request_manager,employee.handover.request.manager,employee.handover.request,cll_employee_access_control.group_employee_access_control_manager,crud
+access_employee_system_overview_manager,employee.system.overview.manager,employee.system.overview,cll_employee_access_control.group_employee_access_control_manager,crud
+access_hr_asset_request_employee,hr.asset.request employee,hr.asset.request,base.group_user,r
+access_hr_asset_request_manager,hr.asset.request manager,hr.asset.request,cll_employee_access_control.group_employee_access_control_manager,crud
+access_employee_system_overview_user,employee.system.overview.user,employee.system.overview,base.group_user,r
+access_employee_system_overview_officer,employee.system.overview.officer,employee.system.overview,hr.group_hr_user,cru
+employee_access_control_company_rule,Employee Access Control Company,employee.access.control,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+employee_handover_request_company_rule,Employee Handover Request Company,employee.handover.request,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+employee_access_control_own_rule,Employee Access Control : Own,employee.access.control,base.group_user,crud,"[('employee_id.user_id', '=', user.id),]"
+employee_access_control_user_rule,Employee Access Control : Manager,employee.access.control,cll_employee_access_control.group_employee_access_control_user,crud,"['|','|','|','|','|','|','|',
+                ('employee_id.user_id', '=', user.id),
+                ('approver_ids.user_id', '=', user.id),
+                ('employee_id.parent_id.user_id', '=', user.id),
+                ('employee_id.senior_id.user_id', '=', user.id),
+                ('employee_id.coach_id.user_id', '=', user.id),
+                ('employee_id.approver1_super_id.user_id', '=', user.id),
+                ('employee_id.approver1_hod_id.user_id', '=', user.id),
+                ('employee_id.approver2_hr_id.user_id', '=', user.id),]"
+employee_handover_request_own_rule,Employee Handover Request Own,employee.handover.request,base.group_user,crud,"[('employee_id.user_id', '=', user.id),]"
+employee_handover_request_user_rule,Employee Handover Request Manager,employee.handover.request,cll_employee_access_control.group_employee_access_control_user,crud,"['|','|','|','|','|','|','|',
+                ('employee_id.user_id', '=', user.id),
+                ('approver_ids.user_id', '=', user.id),
+                ('employee_id.parent_id.user_id', '=', user.id),
+                ('employee_id.senior_id.user_id', '=', user.id),
+                ('employee_id.coach_id.user_id', '=', user.id),
+                ('employee_id.approver1_super_id.user_id', '=', user.id),
+                ('employee_id.approver1_hod_id.user_id', '=', user.id),
+                ('employee_id.approver2_hr_id.user_id', '=', user.id),]"
+employee_system_overview_company_rule,System Overview Company,employee.system.overview,,crud,"[('company_id', 'in', company_ids)]"
+employee_system_overview_user_rule,System Overview User,employee.system.overview,base.group_user,r,"[('employee_id.user_id', '=', user.id)]"
+employee_system_overview_officer_rule,System Overview: Hr Officer,employee.system.overview,hr.group_hr_user,crud
+employee_system_overview_manager_rule,System Overview: Manager,employee.system.overview,cll_employee_access_control.group_employee_access_control_user,crud
+hr_asset_request_company_rule,Asset Requests: Company,hr.asset.request,,crud,"[('company_id', 'in', company_ids)]"
+hr_asset_request_officer_rule,Asset Requests: Officer,hr.asset.request,hr.group_hr_user,crud
+hr_asset_request_user_rule,Asset Requests : User,hr.asset.request,cll_employee_access_control.group_employee_access_control_user,crud,"['|','|','|','|','|','|',
+                ('employee_id.user_id', '=', user.id),
+                ('employee_id.parent_id.user_id', '=', user.id),
+                ('employee_id.senior_id.user_id', '=', user.id),
+                ('employee_id.coach_id.user_id', '=', user.id),
+                ('employee_id.approver1_super_id.user_id', '=', user.id),
+                ('employee_id.approver1_hod_id.user_id', '=', user.id),
+                ('employee_id.approver2_hr_id.user_id', '=', user.id),]"
+hr_asset_request_manager_rule,Asset Requests : ALL,hr.asset.request,cll_employee_access_control.group_employee_access_control_manager,crud

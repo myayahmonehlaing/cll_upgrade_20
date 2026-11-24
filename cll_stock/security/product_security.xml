@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="res.groups.privilege" id="res_groups_privilege_product_access">
+            <field name="name">Product</field>
+        </record>
+
+        <record model="res.groups" id="group_all_product">
+            <field name="name">All Product</field>
+            <field name="privilege_id" ref="res_groups_privilege_product_access"/>
+            <field name="implied_ids" eval="[Command.link(ref('base.group_user'))]"/>
+        </record>
+
+        <record model="res.groups" id="group_right_lab_product">
+            <field name="name">Right Lab</field>
+            <field name="privilege_id" ref="res_groups_privilege_product_access"/>
+            <field name="implied_ids" eval="[Command.link(ref('base.group_user'))]"/>
+        </record>
+
+         <record model="res.groups" id="group_other_product">
+            <field name="name">Others</field>
+             <field name="privilege_id" ref="res_groups_privilege_product_access"/>
+            <field name="implied_ids" eval="[Command.link(ref('base.group_user'))]"/>
+        </record>
+
+<!--        <record id="cll_all_product_template_rule" model="ir.rule">-->
+<!--            <field name="name">All Product Template</field>-->
+<!--            <field name="model_id" ref="model_product_template"/>-->
+<!--            <field name="domain_force">[(1, '=', 1)]</field>-->
+<!--            <field name="groups" eval="[(4, ref('cll_stock.group_all_product'))]"/>-->
+<!--        </record>-->
+
+<!--         <record id="cll_all_product_rule" model="ir.rule">-->
+<!--            <field name="name">All Product</field>-->
+<!--            <field name="model_id" ref="model_product_product"/>-->
+<!--            <field name="domain_force">[(1, '=', 1)]</field>-->
+<!--            <field name="groups" eval="[(4, ref('cll_stock.group_all_product'))]"/>-->
+<!--        </record>-->
+
+<!--        <record id="cll_product_template_rule" model="ir.rule">-->
+<!--            <field name="name">Right lab Product Template</field>-->
+<!--            <field name="model_id" ref="model_product_template"/>-->
+<!--            <field name="domain_force">[('company_id', 'in', company_ids)]</field>-->
+<!--            <field name="groups" eval="[(4, ref('cll_stock.group_right_lab_product'))]"/>-->
+<!--        </record>-->
+
+<!--        <record id="cll_product_rule" model="ir.rule">-->
+<!--            <field name="name">Right lab Product</field>-->
+<!--            <field name="model_id" ref="model_product_product"/>-->
+<!--            <field name="domain_force">[('company_id', 'in', company_ids)]</field>-->
+<!--            <field name="groups" eval="[(4, ref('cll_stock.group_right_lab_product'))]"/>-->
+<!--        </record>-->
+
+<!--        <record id="cll_other_product_template_rule" model="ir.rule">-->
+<!--            <field name="name">Others Product Template</field>-->
+<!--            <field name="model_id" ref="model_product_template"/>-->
+<!--            <field name="domain_force">[('company_id','=',False)]</field>-->
+<!--            <field name="groups" eval="[(4, ref('cll_stock.group_other_product'))]"/>-->
+<!--        </record>-->
+
+<!--        <record id="cll_other_product_rule" model="ir.rule">-->
+<!--            <field name="name">Others Product</field>-->
+<!--            <field name="model_id" ref="model_product_product"/>-->
+<!--            <field name="domain_force">[('company_id','=',False)]</field>-->
+<!--            <field name="groups" eval="[(4, ref('cll_stock.group_other_product'))]"/>-->
+<!--        </record>-->
+
+        <record model="res.groups" id="group_inventory_configuration_access">
+            <field name="name">Inventory Configuration</field>
+<!--            <field name="privilege_id" ref="base.module_category_usability"/>-->
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>-->
+        </record>
+
+    </data>
+</odoo>

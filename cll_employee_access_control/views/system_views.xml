@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="view_cll_company_tree" model="ir.ui.view">
+        <field name="name">cll.company.tree</field>
+        <field name="model">cll.company</field>
+        <field name="arch" type="xml">
+            <list string="Company" editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_cll_company" model="ir.actions.act_window">
+        <field name="name">Companies</field>
+        <field name="res_model">cll.company</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="view_cll_facility_tree" model="ir.ui.view">
+        <field name="name">cll.facility.tree</field>
+        <field name="model">cll.facility</field>
+        <field name="arch" type="xml">
+            <list string="Facility" editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_cll_facility" model="ir.actions.act_window">
+        <field name="name">Facilities</field>
+        <field name="res_model">cll.facility</field>
+        <field name="view_mode">list</field>
+    </record>
+
+
+    <record id="view_cll_system_form" model="ir.ui.view">
+        <field name="name">cll.system.form</field>
+        <field name="model">cll.system</field>
+        <field name="arch" type="xml">
+            <form string="System">
+                <sheet>
+                       <field name="image" widget="image" class="oe_avatar" />
+                        <div class="oe_title">
+                            <h1><field name="name" placeholder="e.g. Odoo" required="1"/></h1>
+                        </div>
+
+                    <group>
+                        <group>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                            <field name="is_odoo" widget="boolean_toggle" invisible="is_workspace"/>
+                            <field name="user_type" invisible="not is_odoo" required="is_odoo"/>
+                            <field name="is_workspace" widget="boolean_toggle" invisible="is_odoo"/>
+                             <field name="description"/>
+                        </group>
+                        <group>
+                            <field name="licensed_users" />
+                            <field name="property_request_approval_id" />
+                            <field name="property_handover_approval_id" />
+                            <field name="partner_ids" widget="many2many_tags"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_cll_system_tree" model="ir.ui.view">
+        <field name="name">cll.system.tree</field>
+        <field name="model">cll.system</field>
+        <field name="arch" type="xml">
+            <list string="Systems">
+                <field name="name"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_cll_system_pivot" model="ir.ui.view">
+    <field name="name">cll.system.pivot</field>
+    <field name="model">cll.system</field>
+    <field name="arch" type="xml">
+        <pivot string="System Analysis">
+            <field name="id" type="row"/>
+            <field name="licensed_users" type="measure"/>
+
+        </pivot>
+    </field>
+    </record>
+
+    <record id="action_cll_system" model="ir.actions.act_window">
+        <field name="name">Systems</field>
+        <field name="res_model">cll.system</field>
+        <field name="view_mode">list,form,pivot</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,7 @@
+# -*- coding: utf-8 -*-
+from . import res_partner_group
+from . import sale_order
+
+from . import product
+from . import account_move
+from . import res_partner

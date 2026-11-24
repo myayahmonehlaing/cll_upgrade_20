@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="mail_activity_data_user_request" model="mail.activity.type">
+            <field name="name">Access Control Approval</field>
+            <field name="icon">fa-check-circle</field>
+            <field name="sequence">6</field>
+            <field name="res_model">employee.access.control</field>
+        </record>
+         <record id="mail_activity_data_handover_request" model="mail.activity.type">
+            <field name="name">User Handover Request Approval</field>
+            <field name="icon">fa-check-circle</field>
+            <field name="sequence">6</field>
+            <field name="res_model">employee.handover.request</field>
+        </record>
+    </data>
+</odoo>

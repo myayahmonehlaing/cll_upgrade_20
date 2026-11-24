@@ -1,0 +1,3 @@
+id,name,model_id,group_id/id,operation,domain
+access_stock_conversion_picking_line,access.stock.conversion.picking.line,stock.conversion.picking.line,stock.group_stock_user,crud
+access_stock_conversion_picking,access.stock.conversion.picking,stock.conversion.picking,stock.group_stock_user,cru

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+       <record id="view_picking_form_approval_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.form.approval.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+                <field name="arch" type="xml">
+                    <field name="origin" position="after">
+                            <field name="customer_ref" string="Customer Ref"/>
+                    </field>
+
+                </field>
+        </record>
+       <record id="view_vpicktree_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.tree.inherit</field>
+        <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+                <field name="arch" type="xml">
+                     <field name="origin" position="after">
+                            <field name="customer_ref" string="Customer Ref"/>
+                    </field>
+                </field>
+        </record>
+
+      <record id="stock_picking_kanban_inherit" model="ir.ui.view">
+        <field name="name">stock.barcode.picking.kanban.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.stock_picking_kanban"/>
+        <!--High priority to not be the standard view of pickings in inventory app-->
+        <field name="priority">500</field>
+        <field name="arch" type="xml">
+                <field name="picking_properties" position="after">
+                     <field name="origin" />
+                </field>
+        </field>
+    </record>
+
+</odoo>

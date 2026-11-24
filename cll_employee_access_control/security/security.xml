@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record model="ir.module.category" id="cll_employee_access_control.module_employee_access_control">
+            <field name="name">Employee Access Control</field>
+        </record>
+        <record model="res.groups.privilege"
+                id="cll_employee_access_control.res_groups_privilege_employee_access_control">
+            <field name="name">Employee Access Control</field>
+            <field name="sequence">100</field>
+            <field name="category_id" ref="cll_employee_access_control.module_employee_access_control"/>
+        </record>
+
+        <record id="group_employee_access_control_user" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="privilege_id" ref="cll_employee_access_control.res_groups_privilege_employee_access_control"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">The user will have access to his own record on his user / employee profile</field>
+        </record>
+
+        <record id="group_employee_access_control_manager" model="res.groups">
+            <field name="name">Credential Management</field>
+            <field name="privilege_id" ref="cll_employee_access_control.res_groups_privilege_employee_access_control"/>
+            <field name="implied_ids"
+                   eval="[(4, ref('cll_employee_access_control.group_employee_access_control_user'))]"/>
+            <field name="comment">The user will have access to his or her records and related records</field>
+        </record>
+
+<!--        <record id="employee_access_control_company_rule" model="ir.rule">-->
+<!--            <field name="name">Employee Access Control: Company</field>-->
+<!--            <field name="model_id" ref="model_employee_access_control"/>-->
+<!--            <field name="global" eval="True"/>-->
+<!--            <field name="perm_read" eval="1"/>-->
+<!--            <field name="perm_write" eval="1"/>-->
+<!--            <field name="perm_create" eval="1"/>-->
+<!--            <field name="perm_unlink" eval="1"/>-->
+<!--            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="employee_handover_request_company_rule" model="ir.rule">-->
+<!--            <field name="name">Employee Handover Request: Company</field>-->
+<!--            <field name="model_id" ref="model_employee_handover_request"/>-->
+<!--            <field name="global" eval="True"/>-->
+<!--            <field name="perm_read" eval="1"/>-->
+<!--            <field name="perm_write" eval="1"/>-->
+<!--            <field name="perm_create" eval="1"/>-->
+<!--            <field name="perm_unlink" eval="1"/>-->
+<!--            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="employee_access_control_own_rule" model="ir.rule">-->
+<!--            <field name="name">Employee Access Control : Own</field>-->
+<!--            <field name="model_id" ref="model_employee_access_control"/>-->
+<!--            <field name="domain_force">[('employee_id.user_id', '=', user.id),]</field>-->
+<!--            <field name="groups" eval="[(4,ref('base.group_user'))]"/>-->
+<!--        </record>-->
+
+<!--        <record id="employee_access_control_user_rule" model="ir.rule">-->
+<!--            <field name="name">Employee Access Control : Manager</field>-->
+<!--            <field name="model_id" ref="model_employee_access_control"/>-->
+<!--            <field name="domain_force">['|','|','|','|','|','|','|',-->
+<!--                ('employee_id.user_id', '=', user.id),-->
+<!--                ('approver_ids.user_id', '=', user.id),-->
+<!--                ('employee_id.parent_id.user_id', '=', user.id),-->
+<!--                ('employee_id.senior_id.user_id', '=', user.id),-->
+<!--                ('employee_id.coach_id.user_id', '=', user.id),-->
+<!--                ('employee_id.approver1_super_id.user_id', '=', user.id),-->
+<!--                ('employee_id.approver1_hod_id.user_id', '=', user.id),-->
+<!--                ('employee_id.approver2_hr_id.user_id', '=', user.id),]-->
+<!--            </field>-->
+<!--            <field name="groups" eval="[(4,ref('cll_employee_access_control.group_employee_access_control_user'))]"/>-->
+<!--        </record>-->
+
+<!--        <record id="employee_access_control_manager_rule" model="ir.rule">-->
+<!--            <field name="name">Employee Access Control : ALL</field>-->
+<!--            <field name="model_id" ref="model_employee_access_control"/>-->
+<!--            <field name="domain_force">[(1, '=', 1)]</field>-->
+<!--            <field name="groups" eval="[(4,ref('cll_employee_access_control.group_employee_access_control_manager'))]"/>-->
+<!--        </record>-->
+
+<!--        <record id="employee_handover_request_own_rule" model="ir.rule">-->
+<!--            <field name="name">Employee Handover Request : Own</field>-->
+<!--            <field name="model_id" ref="model_employee_handover_request"/>-->
+<!--            <field name="domain_force">[('employee_id.user_id', '=', user.id),]</field>-->
+<!--            <field name="groups" eval="[(4,ref('base.group_user'))]"/>-->
+<!--        </record>-->
+
+<!--        <record id="employee_handover_request_user_rule" model="ir.rule">-->
+<!--            <field name="name">Employee Handover Request : Manager</field>-->
+<!--            <field name="model_id" ref="model_employee_handover_request"/>-->
+<!--            <field name="domain_force">['|','|','|','|','|','|','|',-->
+<!--                ('employee_id.user_id', '=', user.id),-->
+<!--                ('approver_ids.user_id', '=', user.id),-->
+<!--                ('employee_id.parent_id.user_id', '=', user.id),-->
+<!--                ('employee_id.senior_id.user_id', '=', user.id),-->
+<!--                ('employee_id.coach_id.user_id', '=', user.id),-->
+<!--                ('employee_id.approver1_super_id.user_id', '=', user.id),-->
+<!--                ('employee_id.approver1_hod_id.user_id', '=', user.id),-->
+<!--                ('employee_id.approver2_hr_id.user_id', '=', user.id),]-->
+<!--            </field>-->
+<!--            <field name="groups" eval="[(4,ref('cll_employee_access_control.group_employee_access_control_user'))]"/>-->
+<!--        </record>-->
+
+<!--        <record id="employee_handover_request_manager_rule" model="ir.rule">-->
+<!--            <field name="name">Employee Handover Request : ALL</field>-->
+<!--            <field name="model_id" ref="model_employee_handover_request"/>-->
+<!--            <field name="domain_force">[(1, '=', 1)]</field>-->
+<!--            <field name="groups" eval="[(4,ref('cll_employee_access_control.group_employee_access_control_manager'))]"/>-->
+<!--        </record>-->
+
+<!--        <record id="employee_system_overview_company_rule" model="ir.rule">-->
+<!--            <field name="name">System Overview: Company</field>-->
+<!--            <field name="model_id" ref="model_employee_system_overview"/>-->
+<!--            <field name="global" eval="True"/>-->
+<!--            <field name="perm_read" eval="1"/>-->
+<!--            <field name="perm_write" eval="1"/>-->
+<!--            <field name="perm_create" eval="1"/>-->
+<!--            <field name="perm_unlink" eval="1"/>-->
+<!--            <field name="domain_force">[('company_id', 'in', company_ids)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="employee_system_overview_user_rule" model="ir.rule">-->
+<!--            <field name="name">System Overview: User</field>-->
+<!--            <field name="model_id" ref="model_employee_system_overview"/>-->
+<!--            <field name="groups" eval="[(4,ref('base.group_user'))]"/>-->
+<!--            <field name="perm_read" eval="1"/>-->
+<!--            <field name="perm_write" eval="0"/>-->
+<!--            <field name="perm_create" eval="0"/>-->
+<!--            <field name="perm_unlink" eval="0"/>-->
+<!--            <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="employee_system_overview_officer_rule" model="ir.rule">-->
+<!--            <field name="name">System Overview: Hr Officer</field>-->
+<!--            <field name="model_id" ref="model_employee_system_overview"/>-->
+<!--            <field name="groups" eval="[(4,ref('hr.group_hr_user'))]"/>-->
+<!--            <field name="perm_read" eval="1"/>-->
+<!--            <field name="perm_write" eval="1"/>-->
+<!--            <field name="perm_create" eval="1"/>-->
+<!--            <field name="perm_unlink" eval="1"/>-->
+<!--            <field name="domain_force">[(1, '=', 1)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="employee_system_overview_manager_rule" model="ir.rule">-->
+<!--            <field name="name">System Overview: Manager</field>-->
+<!--            <field name="model_id" ref="model_employee_system_overview"/>-->
+<!--            <field name="groups" eval="[(4,ref('cll_employee_access_control.group_employee_access_control_user'))]"/>-->
+<!--            <field name="perm_read" eval="1"/>-->
+<!--            <field name="perm_write" eval="1"/>-->
+<!--            <field name="perm_create" eval="1"/>-->
+<!--            <field name="perm_unlink" eval="1"/>-->
+<!--            <field name="domain_force">[(1, '=', 1)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="hr_asset_request_company_rule" model="ir.rule">-->
+<!--            <field name="name">Asset Requests: Company</field>-->
+<!--            <field name="model_id" ref="model_hr_asset_request"/>-->
+<!--            <field name="global" eval="True"/>-->
+<!--            <field name="perm_read" eval="1"/>-->
+<!--            <field name="perm_write" eval="1"/>-->
+<!--            <field name="perm_create" eval="1"/>-->
+<!--            <field name="perm_unlink" eval="1"/>-->
+<!--            <field name="domain_force">[('company_id', 'in', company_ids)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="hr_asset_request_officer_rule" model="ir.rule">-->
+<!--            <field name="name">Asset Requests: Officer</field>-->
+<!--            <field name="model_id" ref="model_hr_asset_request"/>-->
+<!--            <field name="groups" eval="[(4,ref('hr.group_hr_user'))]"/>-->
+<!--            <field name="perm_read" eval="1"/>-->
+<!--            <field name="perm_write" eval="1"/>-->
+<!--            <field name="perm_create" eval="1"/>-->
+<!--            <field name="perm_unlink" eval="1"/>-->
+<!--            <field name="domain_force">[(1, '=', 1)]</field>-->
+<!--        </record>-->
+
+<!--        <record id="hr_asset_request_user_rule" model="ir.rule">-->
+<!--            <field name="name">Asset Requests : User</field>-->
+<!--            <field name="model_id" ref="model_hr_asset_request"/>-->
+<!--            <field name="domain_force">['|','|','|','|','|','|',-->
+<!--                ('employee_id.user_id', '=', user.id),-->
+<!--                ('employee_id.parent_id.user_id', '=', user.id),-->
+<!--                ('employee_id.senior_id.user_id', '=', user.id),-->
+<!--                ('employee_id.coach_id.user_id', '=', user.id),-->
+<!--                ('employee_id.approver1_super_id.user_id', '=', user.id),-->
+<!--                ('employee_id.approver1_hod_id.user_id', '=', user.id),-->
+<!--                ('employee_id.approver2_hr_id.user_id', '=', user.id),]-->
+<!--            </field>-->
+<!--            <field name="groups" eval="[(4,ref('cll_employee_access_control.group_employee_access_control_user'))]"/>-->
+<!--        </record>-->
+
+<!--        <record id="hr_asset_request_manager_rule" model="ir.rule">-->
+<!--            <field name="name">Asset Requests : ALL</field>-->
+<!--            <field name="model_id" ref="model_hr_asset_request"/>-->
+<!--            <field name="domain_force">[(1, '=', 1)]</field>-->
+<!--            <field name="groups" eval="[(4,ref('cll_employee_access_control.group_employee_access_control_manager'))]"/>-->
+<!--        </record>-->
+    </data>
+</odoo>

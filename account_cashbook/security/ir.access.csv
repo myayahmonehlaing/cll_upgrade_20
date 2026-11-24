@@ -1,0 +1,9 @@
+id,name,model_id,group_id/id,operation,domain
+access_account_cashbook_line_manager,account.move.line manager,account.cashbook.line,account.group_account_manager,crud
+access_account_cashbook_manager,account.move manager,account.cashbook,account.group_account_manager,crud
+access_account_cashbook_readonly,account.move readonly,account.cashbook,account.group_account_readonly,r
+access_account_cashbook_uinvoice,account.move,account.cashbook,account.group_account_invoice,crud
+access_account_cashbook_line_readonly,account.move.line readonly,account.cashbook.line,account.group_account_readonly,r
+access_account_cashbook_line_uinvoice,account.move.line invoice,account.cashbook.line,account.group_account_invoice,crud
+account_cashbook_comp_rule,Cashbook multi-company,account.cashbook,,crud,"[('company_id', 'in', company_ids)]"
+account_cashbook_line_comp_rule,Cashbook Line multi-company,account.cashbook.line,,crud,"[('company_id', 'in', company_ids)]"

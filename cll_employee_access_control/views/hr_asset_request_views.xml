@@ -1,0 +1,78 @@
+<odoo>
+        <record id="view_hr_asset_request_search" model="ir.ui.view">
+        <field name="name">hr.asset.request.search</field>
+        <field name="model">hr.asset.request</field>
+        <field name="arch" type="xml">
+            <search string="Search Asset Requests">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="company_id"/>
+                <field name="type"/>
+                <separator/>
+                <group>
+                    <filter name="group_employee" string="Employee" context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_department" string="Department" context="{'group_by': 'department_id'}"/>
+                    <filter name="group_company" string="Company" context="{'group_by': 'company_id'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by': 'type'}"/>
+                </group>
+            </search>
+            </field>
+        </record>
+
+        <record id="view_hr_asset_request_tree" model="ir.ui.view">
+        <field name="name">hr.asset.request.tree</field>
+        <field name="model">hr.asset.request</field>
+        <field name="arch" type="xml">
+            <list string="Asset Requests">
+                <field name="name"/>
+                <field name="employee_id" widget="many2one_avatar_user"/>
+                <field name="type"/>
+                <field name="onboard_date" string="Onboarding"/>
+                <field name="offboard_date"  string="Offboarding"/>
+                 <field name="department_id" optional="hide"/>
+                <field name="company_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hr_asset_request_form" model="ir.ui.view">
+        <field name="name">hr.asset.request.form</field>
+        <field name="model">hr.asset.request</field>
+        <field name="arch" type="xml">
+            <form string="Asset Request">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="employee_id" widget="many2one_avatar_user"/>
+                            <field name="department_id" readonly="1"/>
+                            <field name="company_id" readonly="1"/>
+                        </group>
+
+                        <group>
+                            <field name="type"/>
+                            <field name="onboard_date"  string="Onboarding"/>
+                            <field name="offboard_date"  string="Offboarding"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <field name="remark"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_hr_asset_request" model="ir.actions.act_window">
+        <field name="name">Asset Requests</field>
+        <field name="res_model">hr.asset.request</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_hr_asset_request_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first asset request
+            </p>
+        </field>
+    </record>
+</odoo>

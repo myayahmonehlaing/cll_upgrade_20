@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<templates id="template" xml:space="preserve">
+    <t t-name="pos_inherit.ClinicButton" owl="1">
+        <button class="button set-partner btn btn-light rounded-0 py-2 flex-shrink-1 fw-bolder" t-on-click="() => this.pos.selectClinic()">
+            <div class="d-flex justify-content-center align-items-center ">
+                <span class="d-flex justify-content-center align-items-center rounded-circle me-2 text-bg-dark">
+                    <i class="fa fa-plus-square" role="img" aria-label="Fleet" title="Fleet" />
+                </span>
+                <div t-if="this.clinic" class="text-truncate fw-bolder text-action">
+                    <t t-esc="this.clinic.name" />
+                </div>
+                <div t-else="fw-bolder">
+                    Refer Clinic
+                </div>
+            </div>
+        </button>
+    </t>
+</templates>
+

@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record id="view_order_form_inherit_cll_right_sale" model="ir.ui.view">
+            <field name="name">sale.order.form.view.inherit.right.sale</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='order_lines']/field[@name='order_line']/list" position="inside">
+                    <field name="warehouse_id" optional="1" string="Destination"/>
+                    <field name="is_transfer" optional="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,11 @@
+id,name,model_id,group_id/id,operation,domain
+cll_partner_rule,Right lab Partner,res.partner,cll_stock.group_right_lab_res_partner,crud,"['|','|','|',('company_id', '=', user.company_id.id),('id', '=', user.partner_id.id),('partner_share','=', False),( 'id', '=', user.company_id.partner_id.id)]"
+cll_all_partner_rule,All Partner,res.partner,cll_stock.group_all_res_partner,crud
+cll_other_partner_rule,Others Partner,res.partner,cll_stock.group_other_res_partner,crud,"['|','|',('company_id','=',False),('id', '=', user.partner_id.id),('partner_share','=', False)]"
+cll_all_product_template_rule,All Product Template,product.template,cll_stock.group_all_product,crud
+cll_all_product_rule,All Product,product.product,cll_stock.group_all_product,crud
+cll_product_template_rule,Right lab Product Template,product.template,cll_stock.group_right_lab_product,crud,"[('company_id', 'in', company_ids)]"
+cll_product_rule,Right lab Product,product.product,cll_stock.group_right_lab_product,crud,"[('company_id', 'in', company_ids)]"
+cll_other_product_template_rule,Others Product Template,product.template,cll_stock.group_other_product,crud,"[('company_id','=',False)]"
+cll_other_product_rule,Others Product,product.product,cll_stock.group_other_product,crud,"[('company_id','=',False)]"
+

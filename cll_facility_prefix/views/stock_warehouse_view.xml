@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_warehouse_inherit" model="ir.ui.view">
+            <field name="name">stock.warehouse</field>
+            <field name="model">stock.warehouse</field>
+            <field name="inherit_id" ref="stock.view_warehouse"/>
+            <field name="arch" type="xml">
+                <field name="code" position="after">
+                     <field name="use_facility" invisible="1"/>
+                        <field name="facility_id"  invisible="not use_facility" required="use_facility"/>
+                 </field>
+            </field>
+        </record>
+</odoo>

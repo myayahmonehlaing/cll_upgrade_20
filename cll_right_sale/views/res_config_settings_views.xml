@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherit_cll_right_sale" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.cll.right.sale</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id"
+               ref="sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='sale_management']" position="inside">
+                <block title="Rightlab Configuration">
+                <setting id="right_sale"
+                         help="Click On/Off to use Right Import Configuration Customize">
+                     <field name="right_sale"/>
+                     <div class="content-group">
+                            <div class="row mt8">
+                                <label for="right_deferred_journal_id" class="col-lg-4 o_light_label"/>
+                                <field name="right_deferred_journal_id"/>
+                            </div>
+                        </div>
+                </setting>
+            </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

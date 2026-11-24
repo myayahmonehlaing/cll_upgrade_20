@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="sale_center_form_view" model="ir.ui.view">
+            <field name="name">sale.center.form</field>
+            <field name="model">sale.center</field>
+            <field name="arch" type="xml">
+                <form string="Sale Centers">
+                    <sheet>
+                        <div class="oe_left" style="width: 500px;">
+                            <div class="oe_title" style="width: 390px;">
+                                <label class="oe_edit_only" for="name"
+                                        string="Sale Center #"/>
+                                <h1>
+                                    <field name="name" class="oe_inline" required="1"/>
+                                </h1>
+                            </div>
+                        </div>
+                        <group name="sale_header">
+                            <field name="company_id" invisible="1"/>
+                            <field name="warehouse_id" options="{'no_create_edit': True,'no_create': True}" required="1"/>
+                            <field name="user_ids" widget="many2many_tags"/>
+                            <field name="analytic_account_id" options="{'no_create_edit': True,'no_create': True}" required="1"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Center Lines" name="center_line_ids">
+                                <field
+                                    name="center_line_ids"
+                                    widget="section_and_note_one2many"
+                                    mode="list,kanban">
+                                    <form>
+                                        <group>
+                                            <field name="company_id" invisible="1"/>
+                                            <field name="product_code" required="1"/>
+                                            <field name="product_id" required="1"/>
+                                            <field name="warehouse_id" options="{'no_create_edit': True,'no_create': True}"/>
+                                            <field name="partner_id" options="{'no_create_edit': True,'no_create': True}"/>
+                                        </group>
+                                    </form>
+                                    <list
+                                        string="Center Lines"
+                                        editable="bottom"
+                                        limit="200"
+                                    >
+                                        <field name="sequence" widget="handle" />
+                                        <field name="company_id" column_invisible="1"/>
+                                        <field name="product_code" />
+                                        <field name="product_name" />
+
+                                        <field name="product_id" />
+                                        <field name="warehouse_id" options="{'no_create_edit': True,'no_create': True}"/>
+                                        <field name="partner_id" options="{'no_create_edit': True,'no_create': True}"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="sale_center_search_view" model="ir.ui.view">
+        <field name="name">sale.center.search</field>
+        <field name="model">sale.center</field>
+        <field name="arch" type="xml">
+            <search string="Search Sale Center">
+                <field name="name" decoration-bf="1"/>
+                <field name="warehouse_id"/>
+                <field name="analytic_account_id"/>
+                <field name="create_date" widget="date"/>
+                <group >
+                    <filter string="Warehouse" name="location" domain="[]" context="{'group_by':'warehouse_id'}"/>
+                    <filter string="Analytic Distribution" name="analytic" domain="[]" context="{'group_by':'analytic_account_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="sale_center_tree_view" model="ir.ui.view">
+        <field name="name">sale.center.tree</field>
+        <field name="model">sale.center</field>
+        <field name="arch" type="xml">
+            <list sample="1" open_form_view="True">
+                <field name="name" />
+                <field name="warehouse_id" />
+                <field name="user_ids" widget="many2many_tags"/>
+                <field name="company_id"/>
+                <field name="analytic_account_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_sale_center">
+        <field name="name">Sale Centers</field>
+        <field name="res_model">sale.center</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Sale Centers
+            </p><p>
+            Add a sale centers will configure to use according to the customization of Rightlab.
+            Vendor location is taken from this configuration in order to take as primary.
+            </p>
+        </field>
+    </record>
+
+<!--    <menuitem-->
+<!--        id="menu_sale_center"-->
+<!--        name="Sale Centers"-->
+<!--        parent="sale.prod_config_main"-->
+<!--        action="action_sale_center"-->
+<!--        groups="cll_right_sale.group_sale_center_read"-->
+<!--        sequence="99"/>-->
+    <menuitem
+        id="menu_sale_center_product"
+        name="Sale Centers"
+        parent="sale.product_menu_catalog"
+        action="action_sale_center"
+        groups="cll_right_sale.group_sale_center_read"
+        sequence="99"/>
+</odoo>

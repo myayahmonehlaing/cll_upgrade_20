@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@name='reference']" position="before">
+               <div t-attf-class="#{'col-auto col-3 mw-100' if report_type != 'html' else 'col'} mb-2"
+                    t-if="o.payment_reference and o.move_type in ('in_invoice','in_refund')" name="payment_reference">
+                    <strong>Payment Reference:</strong><br/>
+                    <span t-field="o.payment_reference"/>
+              </div>
+        </xpath>
+
+         <xpath expr="//div[hasclass('page')]" position="inside">
+             <div name="activity_and_log">
+                <t t-set="messages" t-value="o.sudo().message_ids"/>
+                <t t-set="activities" t-value="o.activity_ids"/>
+
+                <!-- === STATE CHANGE / CHATTER LOGS === -->
+                <t t-if="messages and o.move_type in ('in_invoice','in_refund')">
+                    <table class="table table-sm o_main_table table-borderless" >
+                      <thead style="border:none !important;">
+                        <tr style="background-color: #eee;border:none !important;">
+                          <th style="border:none !important;">Date</th>
+                          <th style="border:none !important;width:200px">Author</th>
+                          <th style="border:none !important;">Message</th>
+                        </tr>
+                      </thead>
+                      <tbody style="border:none !important;">
+                        <t t-foreach="messages" t-as="msg">
+                          <tr style="border:none !important;">
+                            <td style="border:none !important;width:170px">
+                                <t t-esc="(msg.date + datetime.timedelta(hours=6, minutes=30)).strftime('%Y-%m-%d %H:%M')"/>
+                            </td>
+                            <td style="border:none !important;"><t t-esc="msg.author_id.name or 'System'"/></td>
+                            <td style="border:none !important;">
+                                <t t-raw="msg.body"/>
+
+                                <t t-if="msg.tracking_value_ids">
+                                    <t t-foreach="msg.tracking_value_ids" t-as="track">
+                                        <t t-esc="track.old_value_char or track.old_value_integer or track.old_value_text or track.old_value_float or track.old_value_datetime or ''"/>
+                                            <span style="margin: 0 6px;"> → </span>
+                                        <t t-esc="track.new_value_char or track.new_value_integer or track.new_value_text or track.new_value_float or track.new_value_datetime or''"/>
+                                    </t>
+                                </t>
+                            </td>
+                          </tr>
+                        </t>
+                      </tbody>
+                    </table>
+                </t>
+             </div>
+        </xpath>
+    </template>
+</odoo>

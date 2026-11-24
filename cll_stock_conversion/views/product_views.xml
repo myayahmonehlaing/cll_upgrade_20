@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="product_template_view_inherit_convert" model="ir.ui.view">
+        <field name="name">product.template.product.inherit.convert</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='group_general']" position="inside">
+                <field name="is_convertible"/>
+                <field name="converted_product_id" invisible="not is_convertible"/>
+                <field name="is_general"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

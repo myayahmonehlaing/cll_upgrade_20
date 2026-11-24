@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_partner_form_inherit" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='function']" position="after">
+                <field name="is_provider" widget="boolean_toggle"/>
+                <field name="is_refer" widget="boolean_toggle"/>
+            </xpath>
+            <xpath expr="//field[@name='ref']" position="attributes">
+                <attribute name="string">Customer ID</attribute>
+            </xpath>
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="gender_id"/>
+                <field name="age"/>
+                <field name="date_of_birth"/>
+                <field name="fingerprint_id"/>
+                <field name="partner_group_id"/>
+            </xpath>
+        </field>
+       </record>
+        <record id="view_res_partner_filter_inherit" model="ir.ui.view">
+            <field name="name">res.partner.search.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <field name="ref" string="Customer ID"/>
+                    <field name="partner_group_id"/>
+                </xpath>
+                <xpath expr="//filter[@name='inactive']" position="before">
+                   <filter string="Providers" name="provider" domain="[('is_provider','=', True)]"/>
+                   <filter string="Refers" name="refer" domain="[('is_refer','=', True)]"/>
+                   <separator/>
+                </xpath>
+            </field>
+        </record>
+
+          <record id="view_res_partner_tree_inherit" model="ir.ui.view">
+            <field name="name">res.partner.tree.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//list" position="inside">
+                    <field name="fingerprint_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

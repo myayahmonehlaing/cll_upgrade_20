@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="act_stock_conversion_picking" model="ir.actions.act_window">
+        <field name="name">Convert Transfer</field>
+        <field name="res_model">stock.conversion.picking</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_stock_conversion_picking_form" model="ir.ui.view">
+        <field name="name">conversion lines</field>
+        <field name="model">stock.conversion.picking</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="picking_id" invisible="1" force_save="1"/>
+                <field name="company_id" invisible="1"/>
+                <field name="product_conversion_moves">
+                    <list editable="top" create="0">
+                        <field name="product_id"   readonly="1" options="{'no_create': True, 'no_open': True}" force_save="1"/>
+                        <field name="quantity"/>
+                        <field name="uom_id" groups="uom.group_uom"/>
+                        <field name="lot_id" readonly="1" force_save="1"/>
+                        <field name="move_id" column_invisible="True"/>
+                    </list>
+                </field>
+                <group>
+                    <field name="picking_type_id" options="{'no_create': True, 'no_open': True}"  required="1"/>
+                </group>
+                <footer>
+                    <button name="create_conversions" string="Convert" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

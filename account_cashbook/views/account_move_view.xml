@@ -1,0 +1,27 @@
+<odoo>
+   <data>
+        <record id="view_move_form_cashbook_inherit" model="ir.ui.view">
+           <field name="name">account.move.form.inherit</field>
+           <field name="model">account.move</field>
+           <field name="inherit_id" ref="account.view_move_form"/>
+           <field name="arch" type="xml">
+
+               <button name="action_open_business_doc" position="after">
+                   <field name="cashbook_id" invisible="1"/>
+                   <button name="action_open_cashbook"
+                        class="oe_stat_button"
+                        icon="fa-bars"
+                        type="object"
+                        invisible="move_type != 'entry' or not id or not cashbook_id">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">1 Cashbook</span>
+                        </div>
+                   </button>
+
+               </button>
+
+           </field>
+        </record>
+
+   </data>
+</odoo>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_category_property_form" model="ir.ui.view">
+        <field name="name">product.category.property.form.inherit.rightlab.stock</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="account.view_category_property_form"/>
+        <field name="arch" type="xml">
+            <field name="property_account_income_categ_id" position="after">
+                <field name="property_account_sale_categ_id"
+                    groups="account.group_account_readonly"
+                   />
+            </field>
+        </field>
+    </record>
+
+
+     <record id="product_template_only_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.service.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+         <field name="mode">extension</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='to_weight']" position="after">
+                   <field name="service_transfer"/>
+              </xpath>
+            <xpath expr="//group[@name='group_general']" position="inside">
+                <field name="label"/>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

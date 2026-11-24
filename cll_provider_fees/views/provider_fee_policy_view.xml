@@ -1,0 +1,96 @@
+<odoo>
+    <!-- ===========================
+         Provider Fee Policy Tree View
+    ============================ -->
+    <record id="view_provider_fee_policy_tree" model="ir.ui.view">
+        <field name="name">provider.fee.policy.tree</field>
+        <field name="model">provider.fee.policy</field>
+        <field name="arch" type="xml">
+            <list string="Provider Fee Policies" default_order="name desc">
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="partner_id" />
+            </list>
+        </field>
+    </record>
+
+    <!-- ===========================
+         Provider Fee Policy Form View
+    ============================ -->
+    <record id="view_provider_fee_policy_form" model="ir.ui.view">
+        <field name="name">provider.fee.policy.form</field>
+        <field name="model">provider.fee.policy</field>
+        <field name="arch" type="xml">
+            <form string="Provider Fee Policy">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" class="oe_inline" required="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                          <group>
+                                 <field name="partner_id" options="{'no_create_edit': True,'no_create': True}"/>
+                          </group>
+                          <group>
+                                <field name="company_id" readonly="1" force_save="1"/>
+                          </group>
+                    </group>
+                    <notebook>
+                        <page string="Policy Details">
+                            <field name="line_ids">
+                                <list editable="bottom" string="Fee Lines">
+                                    <field name="product_id" required="1"/>
+                                    <field name="amount"/>
+                                    <field name="percent" widget="percentage"/>
+                                    <field name="account_id" required="1" options="{'no_create_edit': True,'no_create': True}"/>
+                                    <field name="company_id" readonly="1" column_invisible="1"/>
+                                     <field name="currency_id" readonly="1" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===========================
+         Provider Fee Policy Search View
+    ============================ -->
+    <record id="view_provider_fee_policy_search" model="ir.ui.view">
+        <field name="name">provider.fee.policy.search</field>
+        <field name="model">provider.fee.policy</field>
+        <field name="arch" type="xml">
+            <search string="Search Provider Fee Policies">
+                <field name="name"/>
+                <field name="company_id"/>
+                <filter string="My Company" name="my_company" domain="[('company_id', '=', uid.company_id.id)]"/>
+                <group>
+                    <filter string="Company" name="group_company" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ===========================
+         Action Window
+    ============================ -->
+    <record id="action_provider_fee_policy" model="ir.actions.act_window">
+        <field name="name">Provider Fee Policies</field>
+        <field name="res_model">provider.fee.policy</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Provider Fee Policy
+            </p>
+        </field>
+    </record>
+
+    <!-- Submenu for Policies -->
+    <menuitem id="menu_provider_fee_policy"
+              name="Provider Fee Policies"
+              parent="account.account_invoicing_menu"
+              action="action_provider_fee_policy"
+              sequence="20"/>
+</odoo>

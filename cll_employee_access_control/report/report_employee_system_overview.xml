@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_employee_system_overview">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="employee">
+                <t t-call="web.external_layout">
+                    <div class="page o_content_pdf">
+                        <h2>System Overview</h2>
+                        <h3>
+                            <span t-out="employee.name"/>
+                        </h3>
+                        <div class="row o_header mt-5 ">
+                                <div class="col-auto col-3 mw-100">
+                                     <strong>Department :</strong><br/>
+                                        <span t-field="employee.department_id.name"/>
+
+                                </div>
+                                <div class="col-auto col-3 mw-100">
+                                     <strong>Fingerprint ID :</strong><br/>
+                                     <span t-field="employee.x_studio_fingerprint_id"/>
+                                </div>
+                                   <div class="col-auto col-3 mw-100">
+                                     <strong>Manager :</strong><br/>
+                                     <span t-field="employee.partner_id.name"/>
+                                </div>
+
+                                <div class="col-auto col-3 mw-100">
+                                       <strong>Position :</strong><br/>
+                                       <span t-field="employee.job_id.name"/>
+                                </div>
+
+                                <div class="col-auto col-3 mw-100">
+                                        <strong>Company :</strong><br/>
+                                        <span t-field="employee.company_id.name"/>
+
+                                </div>
+                        </div>
+                        <div class="oe_structure"/>
+                        <table class="o_table mt-5">
+                            <tbody>
+                                <tr t-foreach="employee.system_status_ids" t-as="system">
+                                    <td width="30%">
+
+                                            <img
+                                                t-if="system.system_id.image" t-att-src="image_data_uri(system.system_id.image)"
+                                                alt="System"  style="max-height: 60px;"
+                                            />
+
+                                    </td>
+                                    <td>
+                                        <div style="display: flex; justify-content: space-between;">
+
+                                            <!-- System Name -->
+                                            <strong style="font-size: 14px;">
+                                                <t t-esc="system.system_id.name"/>
+                                            </strong>
+
+                                            <!-- Status Badge -->
+                                            <t t-if="system.is_active">
+                                                <span
+                                                    style="background-color:#28a745;
+                                                           color:white;
+                                                           padding:3px 8px;
+                                                           border-radius:12px;
+                                                           font-size:11px;">
+                                                    Active
+                                                </span>
+                                            </t>
+                                            <t t-else="">
+                                                <span
+                                                    style="background-color:#6c757d;
+                                                           color:white;
+                                                           padding:3px 8px;
+                                                           border-radius:12px;
+                                                           font-size:11px;">
+                                                    Inactive
+                                                </span>
+                                            </t>
+
+                                        </div>
+
+                                         <div style="margin-top: 8px; font-size: 12px;">
+                                            <div>
+                                                <strong>Active Date:</strong>
+                                                <t t-esc="system.active_date"/>
+                                            </div>
+
+                                            <div style="margin-top: 4px; color:#666;">
+                                                <strong>Inactive Date:</strong>
+                                                <t t-esc="system.inactive_date"/>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_employee_system_overview" model="ir.actions.report">
+        <field name="name">System Overview</field>
+        <field name="model">hr.employee</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">cll_employee_access_control.report_employee_system_overview</field>
+        <field name="report_file">cll_employee_access_control.report_employee_system_overview</field>
+        <field name="print_report_name">'System Overview - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+    </record>
+</odoo>
